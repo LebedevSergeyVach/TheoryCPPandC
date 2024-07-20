@@ -1,13 +1,19 @@
 #include <stdio.h>
 
-int main() {
-    greet("Alice");
-    greet("Bob");
-
-    return 0;
+// Нахождение объема параллелепипеда
+double volume_parallelepiped(double a, double b, double c) {
+    double volume = a * b * c;
+    return volume;
 }
 
-// Функция
-void greet(char name[]) {
-    printf("Hello, %s!\n", name);
+int main() {
+    double a, b, c;
+
+    a = b = 10.0;
+    c = 23.6;
+
+    double volume = volume_parallelepiped(a, b, c);
+    printf("%f", volume);
+
+    return 0;
 }
