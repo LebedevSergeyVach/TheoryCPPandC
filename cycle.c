@@ -5,7 +5,8 @@ int main() {
 }
 
 // Циклы
-int cycle() {
+int cycle() 
+{
     for (int i = 0; i < 5; i++) {
         printf("Iteration %d\n", i);
     }

@@ -6,7 +6,8 @@ int main() {
 }
 
 // Переменные и типы данных
-int type() {
+int type() 
+{
     // int
     int ints = 25;
     printf("int: %d\n", ints);
