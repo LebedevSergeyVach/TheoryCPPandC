@@ -35,3 +35,9 @@ int main()
 
     return 0;
 }
+
+int inc(int x)
+{
+    return x + 5;
+}
+
