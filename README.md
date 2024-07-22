@@ -21,6 +21,10 @@ gcc main.c
 
 ---
 
+## A good course in the C programming language on [Stepik](https://stepik.org/course/57680/info)
+
+---
+
 #### [README](README.md) [UP](#up)
 
 ---
@@ -45,6 +49,10 @@ gcc main.c
 ```commandline
 ./[name for .exe]
 ```
+
+---
+
+## Хороший крус по языку программирования C на [Stepik](https://stepik.org/course/57680/info)
 
 ---
 
