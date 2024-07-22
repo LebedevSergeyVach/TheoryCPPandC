@@ -1,5 +1,12 @@
+/* Библиотеки */
+
 #include <stdio.h>
 #include <math.h> // gcc -o main main.c -lm
+
+/* Препроцессоры и макросы */
+
+#define M_PI 3.14159265358979323846 // Заменяет в коде M_PI на 3.14159265358979323846
+
 
 /* Объявление функций */
 
@@ -13,6 +20,7 @@ double volume_cylinder(double radius, double height);
 double volume_ball(double radius);
 // Нахождение объема конуса
 double volume_cone(double radius, double height);
+
 
 /* Главная функция */
 int main()
@@ -31,6 +39,7 @@ int main()
 
     return 0;
 }
+
 
 /* Определение функции */
 
