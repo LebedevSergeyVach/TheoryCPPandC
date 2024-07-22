@@ -13,6 +13,12 @@ gcc main.c -o [name for .exe]
 gcc main.c
 ```
 
+### Show additional warnings from the gcc compiler
+#### -Wall -Wextra - flags that include warnings to improve code quality and detect potential problems
+```commandline
+gcc -Wall -Wextra main.c
+```
+
 ### Running compiled code
 #### [name for .exe] - the name of the compiled one .exe file (пример: main)
 ```commandline
@@ -42,6 +48,12 @@ gcc main.c -o [name for .exe]
 #### Автоматическое название файла a.exe
 ```commandline
 gcc main.c
+```
+
+### Показать дополнительные предупреждения от компилятора gcc
+#### -Wall -Wextra - флаги, включающие предупреждения для повышения качества кода и обнаружения потенциальных проблем
+```commandline
+gcc -Wall -Wextra main.c
 ```
 
 ### Запуск скомпилированного кода 
