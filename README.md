@@ -21,7 +21,7 @@ gcc main.c
 
 ---
 
-## A good course in the C programming language on [Stepik](https://stepik.org/course/57680/info)
+### A good course in the C programming language on [Stepik](https://stepik.org/course/57680/info)
 
 ---
 
@@ -52,7 +52,7 @@ gcc main.c
 
 ---
 
-## Хороший крус по языку программирования C на [Stepik](https://stepik.org/course/57680/info)
+### Хороший крус по языку программирования C на [Stepik](https://stepik.org/course/57680/info)
 
 ---
 
