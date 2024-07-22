@@ -1,9 +1,25 @@
-#ifdef xpp
-#include <stdio.h> // gcc -Wall -Wextra -Dxpp main.c
+#if defined (one)
+#include <stdio.h> // gcc -Wall -Wextra -Done main.c
 
 int inc(int x)
 {
     return x + 1;
+}
+
+#elif defined (two)
+#include <stdio.h> // gcc -Wall -Wextra -Dtwo main.c
+
+int inc(int x)
+{
+    return x + 2;
+}
+
+#elif defined (three)
+#include <stdio.h> // gcc -Wall -Wextra -Dthree main.c
+
+int inc(int x)
+{
+    return x + 3;
 }
 
 #endif
