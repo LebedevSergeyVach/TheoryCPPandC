@@ -10,7 +10,8 @@ struct Student
 };
 
 // typedef - Для упрощения объявления переменных типа структуры
-typedef struct
+// Теперь можно использовать в коде как struct Student_typedef, так и просто Student_typedef
+typedef struct Student_typedef
 {
     char name[50];
     int age;
@@ -28,7 +29,7 @@ void printStudent(struct Student student)
 
 // Функции могут возвращать структуры
 // Функция, заполняющая данные typedef struct Student_typedef
-Student_typedef createStudent(char name[], int age, float gpa)
+struct Student_typedef createStudent(char name[], int age, float gpa)
 {
     Student_typedef student;
     strcpy(student.name, name);
