@@ -17,15 +17,27 @@
 double discriminant(double a, double b, double c);
 // Функция, находящая корни квадратного уравнения
 void roots_equation(double a, double b, double c, double *one, double *two);
+// Функция, переводящщая минуты в электронный циферблат (mm) -> (hh:mm)
+void min2time(int mm, int * ph, int * pm);
 
 
 /* Главная функция */
 int main()
 {
-    double one, two;
+    double a, b, c, one, two;
 
-    roots_equation(1, 5, 6, &one, &two);
-    printf("%.2f %.2f", one, two);
+    printf("Enter the arguments of the quadratic equation in the format (a b c): "); // 1 5 6
+    scanf("%lf%lf%lf", &a, &b, &c);
+    roots_equation(a, b, c, &one, &two);
+    printf("The first root of the quadratic equation (%.2fx^2 + %.2fx + %.2f) = %.2f, the second root = %.2f\n", a, b, c, one, two);
+
+    int mm, h, m;
+
+    printf("Enter the minutes to display on the dial: "); // 1440
+    scanf("%d", &mm);
+    min2time(mm, &h, &m);
+    printf("TIME %02d:%02d\n", h, m);
+
 
     return 0;
 }
@@ -57,3 +69,12 @@ void roots_equation(double a, double b, double c, double *one, double *two)
         *two = 0;
     }
 }
+
+// Функция, переводящщая минуты в электронный циферблат (mm) -> (hh:mm)
+void min2time(int mm, int * ph, int * pm)
+{
+    mm %= 1440;
+    * ph = mm / 60;
+    * pm = mm - * ph * 60;
+}
+
