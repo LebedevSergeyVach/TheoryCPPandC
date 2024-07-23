@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 
-int main() {
+int main()
+{
     return 0;
 }
 
 // Переменные и типы данных
-int type() 
+int type()
 {
     // int
     int ints = 25;
@@ -44,5 +45,5 @@ int type()
     unsigned int unsigned_int = 4294967295U;
     printf("unsigned int: %u\n", unsigned_int);
 
-	return 0;
+    return 0;
 }

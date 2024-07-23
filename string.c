@@ -1,11 +1,12 @@
 #include <stdio.h>
 
-int main() {
+int main()
+{
     return 0;
 }
 
 // Строки
-int string() 
+int string()
 {
     // Использование массива символов:
     char str1[6] = {'H', 'e', 'l', 'l', 'o', '\0'};
@@ -39,9 +40,12 @@ int string()
     char str7[] = "Hello";
     char str8[] = "Hello";
 
-    if (strcmp(str7, str8) == 0) {
+    if (strcmp(str7, str8) == 0)
+    {
         printf("Strings are equal\n");
-    } else {
+    }
+    else
+    {
         printf("Strings are not equal\n");
     }
 

@@ -3,11 +3,10 @@
 #include <stdio.h>
 #include <math.h>
 
-
 /* Препроцессоры и макросы */
 
 #define square(number) ((number) * (number)) // Макрос фукнции, возводящей чилос в квадрат
-#define root(number) (pow(number, 0.5)) // Макрос функции, находящей корень числа
+#define root(number) (pow(number, 0.5))      // Макрос функции, находящей корень числа
 
 #define M_PI 3.14159265358979323846 // Препроцессор, заменяющий в коде M_PI на 3.14159265358979323846
 
@@ -18,8 +17,7 @@ double discriminant(double a, double b, double c);
 // Функция, находящая корни квадратного уравнения
 void roots_equation(double a, double b, double c, double *one, double *two);
 // Функция, переводящщая минуты в электронный циферблат (mm) -> (hh:mm)
-void min2time(int mm, int * ph, int * pm);
-
+void min2time(int mm, int *ph, int *pm);
 
 /* Главная функция */
 int main()
@@ -38,10 +36,8 @@ int main()
     min2time(mm, &h, &m);
     printf("TIME %02d:%02d\n", h, m);
 
-
     return 0;
 }
-
 
 /* Определение функции */
 
@@ -59,22 +55,26 @@ void roots_equation(double a, double b, double c, double *one, double *two)
 {
     double discriminants = discriminant(a, b, c);
 
-    if (discriminants > 0) {
+    if (discriminants > 0)
+    {
         *one = ((-b) + root(discriminants)) / (2 * a);
         *two = ((-b) - root(discriminants)) / (2 * a);
-    } else if (discriminants == 0) {
+    }
+    else if (discriminants == 0)
+    {
         *one = ((-b) + root(discriminants)) / (2 * a);
-    } else {
+    }
+    else
+    {
         *one = 0;
         *two = 0;
     }
 }
 
 // Функция, переводящщая минуты в электронный циферблат (mm) -> (hh:mm)
-void min2time(int mm, int * ph, int * pm)
+void min2time(int mm, int *ph, int *pm)
 {
     mm %= 1440;
-    * ph = mm / 60;
-    * pm = mm - * ph * 60;
+    *ph = mm / 60;
+    *pm = mm - *ph * 60;
 }
-

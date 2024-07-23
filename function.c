@@ -7,7 +7,6 @@
 
 #define M_PI 3.14159265358979323846 // Заменяет в коде M_PI на 3.14159265358979323846
 
-
 /* Объявление функций */
 
 // Нахождение объема параллелепипеда
@@ -20,7 +19,6 @@ double volume_cylinder(double radius, double height);
 double volume_ball(double radius);
 // Нахождение объема конуса
 double volume_cone(double radius, double height);
-
 
 /* Главная функция */
 int main()
@@ -40,11 +38,10 @@ int main()
     return 0;
 }
 
-
 /* Определение функции */
 
 // Нахождение объема параллелепипеда
-double volume_parallelepiped(double a, double b, double c) 
+double volume_parallelepiped(double a, double b, double c)
 {
     double volume;
     volume = a * b * c;
@@ -53,7 +50,7 @@ double volume_parallelepiped(double a, double b, double c)
 }
 
 // Нахождение площади круга
-double area_circle(double radius) 
+double area_circle(double radius)
 {
     double area;
     area = M_PI * pow(radius, 2);
