@@ -38,6 +38,30 @@ struct Student_typedef createStudent(char name[], int age, float gpa)
     return student;
 }
 
+// Структура Циферблат
+typedef struct Dial
+{
+    int hours, minuts, seconds;
+} Dial;
+
+// Функция получает минуты и выводит данные в виде циферблата typedef struct Dial
+Dial enterTimeMM(int mm)
+{
+    Dial dial;
+    mm %= 1440;
+    dial.hours = mm / 60;
+    dial.minuts = mm - dial.hours * 60;
+    dial.seconds = 0;
+
+    return dial;
+}
+
+// Функция, принтующая данные struct Dial
+void printTimeDial(Dial dial)
+{
+    printf("\n ________\n|%02d:%02d:%02d|\n----------\n|________|\n", dial.hours, dial.minuts, dial.seconds);
+}
+
 int main()
 {
     /* struct Student - экземпляр */
@@ -103,6 +127,10 @@ int main()
     printf("Name: %s\n", student1.name);
     printf("Age: %d\n", student1.age);
     printf("GPA: %.2f\n", student1.gpa);
+
+    // Циферблат
+    Dial dial = enterTimeMM(123);
+    printTimeDial(dial);
 
     return 0;
 }
