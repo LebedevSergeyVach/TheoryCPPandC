@@ -7,6 +7,7 @@ typedef struct TimeIsNow
     int hours, minuts, seconds;
 } TimeIsNow;
 
+// Определение структуры DataIsNow, которая содержит поля для дней, месяцев и лет
 typedef struct DataIsNow
 {
     int days, months, years;
