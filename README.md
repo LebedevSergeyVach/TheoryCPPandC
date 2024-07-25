@@ -25,6 +25,8 @@ gcc -Wall -Wextra main.c
 ./[name for .exe]
 ```
 
+---
+
 ### Formatting C code in Visual Studio Code
 #### Install the extension [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) in Visual Studio Code
 #### Press CTRL + SHIFT +P and enter Format Document and select C/C++ and Press ALT + SHIFT + F
@@ -65,6 +67,8 @@ gcc -Wall -Wextra main.c
 ```commandline
 ./[name for .exe]
 ```
+
+---
 
 ### Форматирование кода на C в Visual Studio Code
 #### Установить расширение [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) в Visual Studio Code
