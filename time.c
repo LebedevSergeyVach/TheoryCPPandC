@@ -14,6 +14,7 @@ typedef struct DataIsNow
 } DataIsNow;
 
 // Функция для получения текущего времени и записи его в структуру TimeIsNow
+// Параметр TimeIsNow *time_now: Это указатель на структуру TimeIsNow
 void getTimeIsNow(TimeIsNow *time_now)
 {
     // Получаем текущее время в виде количества секунд с начала эпохи (1 января 1970 года)
@@ -24,12 +25,14 @@ void getTimeIsNow(TimeIsNow *time_now)
     struct tm *local_time = localtime(&current_time);
 
     // Записываем часы, минуты и секунды в поля структуры time_now
+    // Оператор -> используется для доступа к полям структуры через указатель
     time_now->hours = local_time->tm_hour;
     time_now->minuts = local_time->tm_min;
     time_now->seconds = local_time->tm_sec;
 }
 
 // Функция для получения текущей даты и записи его в структуру DataIsNow
+// Параметр DataIsNow *data_now: Это указатель на структуру DataIsNow
 void getDataIsNow(DataIsNow *data_now)
 {
     // Получаем текущее время в виде количества секунд с начала эпохи (1 января 1970 года)
@@ -40,9 +43,10 @@ void getDataIsNow(DataIsNow *data_now)
     struct tm *local_time = localtime(&current_time);
 
     // Записываем день, месяц и год в поля структуры data_now
+    // Оператор -> используется для доступа к полям структуры через указатель
     data_now->days = local_time->tm_mday;
     data_now->months = local_time->tm_mon;
-    data_now->years = local_time->tm_year + 1900;    
+    data_now->years = local_time->tm_year + 1900;
 }
 
 // Функция для вывода времени из структуры TimeIsNow в формате чч:мм:сс
@@ -62,10 +66,9 @@ void printDataIsNow(DataIsNow data)
 void printDialTimeData(TimeIsNow time, DataIsNow data)
 {
     printf(
-        "\n|  %02d:%02d:%02d  |\n-------------\n| %02d:%02d:%04d |\n", 
+        "\n|  %02d:%02d:%02d  |\n-------------\n| %02d:%02d:%04d |\n",
         time.hours, time.minuts, time.seconds,
-        data.days, data.months, data.years
-    );
+        data.days, data.months, data.years);
 }
 
 int main()
