@@ -29,7 +29,7 @@ gcc -Wall -Wextra main.c
 
 ### Formatting C code in Visual Studio Code
 #### Install the extension [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) in Visual Studio Code
-#### Press CTRL + SHIFT + P and enter Format Document and select C/C++ or press ALT + SHIFT + F
+#### Press CTRL + SHIFT + P ➜ enter Format Document ➜ select C/C++ or press ALT + SHIFT + F
 
 ---
 
@@ -72,7 +72,7 @@ gcc -Wall -Wextra main.c
 
 ### Форматирование кода на C в Visual Studio Code
 #### Установить расширение [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) в Visual Studio Code
-#### Нажать комбинацию клавиш CTRL + SHIFT + P и ввести Format Document и выбрать C/C++ или нажать комбинацию клавиш ALT + SHIFT + F
+#### Нажать комбинацию клавиш CTRL + SHIFT + P ➜ ввести Format Document ➜ выбрать C/C++ или нажать комбинацию клавиш ALT + SHIFT + F
 
 ---
 
