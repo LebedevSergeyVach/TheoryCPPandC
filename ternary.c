@@ -19,30 +19,8 @@ int main()
 {
     int a, b;
     scanf("%d%d", &a, &b);
+    // тернарный оператор "...", ... ? ... : ...
     printf("%d %d\n%d\n", a, b, a < b ? a : b);
-
-    // switch case
-    switch (a % 10)
-    {
-    case 1:
-        printf("One");
-        break;
-    case 2:
-        printf("Two");
-        break;
-    case 3:
-        printf("Three");
-        break;
-    case 4:
-        printf("Four");
-        break;
-    case 5:
-        printf("Five");
-        break;
-    default:
-        printf("NO");
-        break;
-    }
 
     return 0;
 }

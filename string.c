@@ -1,12 +1,7 @@
 #include <stdio.h>
 
+/* Строки char[] */
 int main()
-{
-    return 0;
-}
-
-// Строки
-int string()
 {
     // Использование массива символов:
     char str1[6] = {'H', 'e', 'l', 'l', 'o', '\0'};

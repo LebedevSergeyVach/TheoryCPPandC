@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+/* Форматы вывода данных в консоль printf(); */
 int main()
 {
     printf("<%d>\n", 12);     // <12>

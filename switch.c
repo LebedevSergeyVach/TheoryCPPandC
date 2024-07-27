@@ -141,8 +141,6 @@ Season convToSeas(Data data)
         break;
     }
 
-    
-
     return season;
 }
 

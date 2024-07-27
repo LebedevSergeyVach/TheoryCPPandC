@@ -1,22 +1,21 @@
 #include <stdio.h>
 
+/* Циклы for и while*/
 int main()
 {
-    return 0;
-}
-
-// Циклы
-int cycle()
-{
-    for (int i = 0; i < 5; i++)
+    // [i, 5]
+    for (int i = 0; i <= 5; i++)
     {
         printf("Iteration %d\n", i);
     }
 
     int j = 0;
-    while (j < 5)
+    // [i, 5]
+    while (j <= 5)
     {
         printf("While iteration %d\n", j);
         j++;
     }
+
+    return 0;
 }

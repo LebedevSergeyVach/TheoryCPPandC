@@ -1,13 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+/* Переменные и типы данных -> int double float ... */
 int main()
-{
-    return 0;
-}
-
-// Переменные и типы данных
-int type()
 {
     // int
     int ints = 25;
