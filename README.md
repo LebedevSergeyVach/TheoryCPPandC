@@ -88,17 +88,9 @@ gcc -Wall -Wextra main.c
 
 ### Основные расширения
 
-1. [**C/C++**
-   - [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
-   - Описание: Основное расширение для работы с C и C++ в VSCode.
-
-2. [**C/C++ Runner**
-   - [C/C++ Runner](https://marketplace.visualstudio.com/items?itemName=franneck94.c-cpp-runner)
-   - Описание: Упрощает запуск и отладку проектов на C и C++.
-
-3. [**CMake Tools**
-   - [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)
-   - Описание: Инструменты для работы с CMake в VSCode.
+1. [**C/C++**](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) - Основное расширение для работы с C и C++ в VSCode
+2. [**C/C++ Runner**](https://marketplace.visualstudio.com/items?itemName=franneck94.c-cpp-runner) - Упрощает запуск и отладку проектов на C и C++
+3. [**CMake Tools**](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools) - Инструменты для работы с CMake в VSCode
 
 ### Инструменты форматирования и анализа кода
 
