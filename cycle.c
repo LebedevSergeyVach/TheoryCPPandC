@@ -22,10 +22,22 @@ int main()
 
     int i = 0;
     // [i, 5]
-    do {
+    do
+    {
         printf("Iteration %d\n", i);
         i++;
     } while (i <= 5);
+
+    /*
+        Несколько выражений в первой и последней части for
+        Напишем вычисление факториала n! через цикл for
+        Начиная со стандарта С99 можно объявлять переменную i прямо в операторе for. По принципу "где нужно, там и объявили".
+    */
+    for (res = 1, i = 1; i <= n; res *= i, i++) {
+        ;       // подчеркиваем, что мы осознаем, что в цикле тело пустое
+    }
+    printf("%d! = %d\n", n, res);
+
 
     int number, reversed;
     scanf("%d", &number);
@@ -41,11 +53,11 @@ int revesedNumber(int number)
 {
     int reversed = 0;
 
-    while (number > 0) {
+    while (number > 0)
+    {
         reversed = reversed * 10 + number % 10;
         number /= 10;
     }
 
     return reversed;
 }
-

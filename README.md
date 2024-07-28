@@ -82,4 +82,63 @@ gcc -Wall -Wextra main.c
 
 #### [README](README.md) [ВВЕРХ](#вверх)
 
+---
 
+## Полезные расширения для Visual Studio Code
+
+### Основные расширения
+
+1. **C/C++**
+   - [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
+   - Описание: Основное расширение для работы с C и C++ в VSCode.
+
+2. **C/C++ Runner**
+   - [C/C++ Runner](https://marketplace.visualstudio.com/items?itemName=franneck94.c-cpp-runner)
+   - Описание: Упрощает запуск и отладку проектов на C и C++.
+
+3. **CMake Tools**
+   - [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)
+   - Описание: Инструменты для работы с CMake в VSCode.
+
+### Инструменты форматирования и анализа кода
+
+1. **C/C++**
+   - [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
+   - Описание: Основное расширение для работы с C и C++ в VSCode.
+
+2. **CodeLLDB**
+   - [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
+   - Описание: Отладчик для C, C++, Rust и других языков, использующих LLVM.
+
+3. **Clang-Format**
+   - [Clang-Format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format)
+   - Описание: Инструмент форматирования кода для C, C++, Objective-C, Java, JavaScript и TypeScript.
+
+### Визуальные улучшения
+
+1. **Midnight Codium**
+   - [Midnight Codium](https://marketplace.visualstudio.com/items?itemName=mischah.midnight-codium)
+   - Описание: Темная тема для VSCode с улучшенной контрастностью.
+
+2. **Atom Material Icons**
+   - [Atom Material Icons](https://marketplace.visualstudio.com/items?itemName=donjayamanne.python-environment-manager)
+   - Описание: Красивые иконки для файлов и папок в стиле Material Design.
+
+3. **Better C++ Syntax**
+   - [Better C++ Syntax](https://marketplace.visualstudio.com/items?itemName=jeff-hykin.better-cpp-syntax)
+   - Описание: Улучшенная подсветка синтаксиса для C и C++.
+
+### Инструменты разработки
+
+1. **Russian Language Pack for Visual Studio Code**
+   - [Russian Language Pack](https://marketplace.visualstudio.com/items?itemName=MS-CEINTL.vscode-language-pack-ru)
+   - Описание: Локализация VSCode на русский язык.
+
+2. **GitLens**
+   - [GitLens — Git supercharged](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+   - Описание: Расширенная поддержка Git в VSCode.
+
+3. **Live Server**
+   - [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+   - Описание: Локальный запуск и просмотр изменений в реальном времени (полезно для разработки веб-приложений на C с использованием WebAssembly).
+   
