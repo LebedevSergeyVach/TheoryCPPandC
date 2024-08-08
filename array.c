@@ -5,15 +5,23 @@
 
 // Функция, выводящая содержание массивы в консоль
 void printArray(int arr[], int size);
+// Функция, выводящая рядом содержание двух массивов в консоль
+void printTwoArray(int arrayOne[], int arrayTwo[], int size);
+
 // Функция, копирующая данные одного массива в другой (куда, откуда, сколько элементов)
 void arr_copy(int *dst, int *src, int n);
 
-// Строка - это массив символов, оканчивающихся символом '\0'
+/*
+    Строка - это массив символов, оканчивающихся символом '\0'
+*/
 
 // Функции для подсчет длины строки
 int my_strlen1(char str[]);
 // Функции для подсчет длины строки с использованием указателей вместо индексов
 int my_strlen2(char str[]);
+
+// Функция, разменивающая введённую стоимость купюрами
+void exchange_banknotes(int number, int *counts);
 
 /* Массивы */
 int main()
@@ -96,6 +104,20 @@ int main()
     char s[10] = {'a', 'b', 'c', '\0'};     // то же самое char s[10] = "abc";
     printf("length = %d\n", my_strlen1(s)); // length = 3
 
+    /*
+        Размен купюрами для внесенной суммы денег
+    */
+    int number;
+    printf("Enter coins, please: ");
+    scanf("%d", &number);
+
+    int coins[] = {5000, 1000, 500, 100, 50, 10, 5, 2, 1}; // Массив всех купюр
+    int counts[sizeof(coins) / sizeof(coins[0])] = {0};    // Узнаем длинну массива с купюрами (количесвто купюр)
+
+    // Вызываем функцию для вычисления количества монет
+    exchange_banknotes(number, counts);
+    printTwoArray(coins, counts, sizeof(coins) / sizeof(coins[0]));
+
     return 0;
 }
 
@@ -114,6 +136,16 @@ void printArray(int arr[], int size)
     for (int i = 0; i < size; i++)
     {
         printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+// Функция, выводящая рядом содержание двух массивов в консоль
+void printTwoArray(int arrayOne[], int arrayTwo[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        printf("%d %d\n", arrayOne[i], arrayTwo[i]);
     }
     printf("\n");
 }
@@ -141,4 +173,24 @@ int my_strlen2(char str[])
     for (p = str; *p != '\0'; p++)
         ; // подчеркиваем, что мы осознаем, что в цикле тело пустое
     return p - str;
+}
+
+// Функция, разменивающая введённую стоимость купюрами
+// Надо выдать банкоматом X рублей так, чтобы количество монет было наименьшим.
+void exchange_banknotes(int number, int *counts)
+{
+    int coins[] = {5000, 1000, 500, 100, 50, 10, 5, 2, 1};  // Массив всех купюр
+    int num_coins = sizeof(coins) / sizeof(coins[0]) = {0}; // Узнаем длинну массива с купюрами (количесвто купюр)
+
+    // Вычисляем количество каждой монеты
+    for (int i = 0; i < num_coins; i++)
+    {
+        while (number >= coins[i])
+        {
+            // Уменьшаем сумму на величину, которую мы уже разменяли
+            number -= coins[i];
+            // Вычисляем количество монет текущего достоинства
+            counts[i]++;
+        }
+    }
 }
