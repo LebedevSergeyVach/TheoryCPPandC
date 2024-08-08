@@ -33,7 +33,8 @@ gcc -Wall -Wextra main.c
 
 ---
 
-### A good course in the C programming language on [Stepik](https://stepik.org/course/57680/info)
+### A good course on the C programming language from MIPT teachers (Taught in the 1st year of MIPT) on [Stepik](https://stepik.org/course/57680/info)
+
 
 ---
 
@@ -76,7 +77,7 @@ gcc -Wall -Wextra main.c
 
 ---
 
-### Хороший крус по языку программирования C на [Stepik](https://stepik.org/course/57680/info)
+### Хороший крус по языку программирования C от преподавателей МФТИ (Читается на 1 курсе МФТИ) на [Stepik](https://stepik.org/course/57680/info)
 
 ---
 
