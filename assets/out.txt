@@ -1,0 +1,1 @@
+Sum numbers file data.txt = 55
