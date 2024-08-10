@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 /*
     Файлы
@@ -70,19 +72,147 @@
     int feof(FILE * stream);
 */
 
+// Определение структуры TimeIsNow, которая содержит поля для часов, минут и секунд
+typedef struct TimeIsNow
+{
+    int hours, minuts, seconds;
+} TimeIsNow;
+
+// Определение структуры DataIsNow, которая содержит поля для дней, месяцев и лет
+typedef struct DataIsNow
+{
+    int days, months, years;
+} DataIsNow;
+
+// Функция для получения текущего времени и записи его в структуру TimeIsNow
+// Параметр TimeIsNow *time_now: Это указатель на структуру TimeIsNow
+void getTimeIsNow(TimeIsNow *time_now);
+
+// Функция для получения текущей даты и записи его в структуру DataIsNow
+// Параметр DataIsNow *data_now: Это указатель на структуру DataIsNow
+void getDataIsNow(DataIsNow *data_now);
+
+// Функция для вывода времени из структур TimeIsNow и DataIsNow в формате чч:мм:сс
+void addTimeAndDataIsNowFiles(FILE *file, TimeIsNow time, DataIsNow data);
+
+// Функция для чтения файла с числами и поиска их суммы
+int file_numbers();
+
 int main()
 {
     // Создание двух потоков: на чтение (-r) файла data.txt и перезапись (-w) файла out.txt
-    const char *filename = "data.txt";
+    const char *filenameOpen = "data.txt";
+    const char *filenameClose = "out.txt";
     FILE *file_open = fopen("assets/data.txt", "r"); // открыть файл data.txt на чтение - поток file_open
-    FILE *file_out = fopen("assets/out.txt", "w");   // открыть файл out.txt на запись - поток
+    FILE *file_out = fopen("assets/out.txt", "a");   // открыть файл out.txt на запись - поток
+
+    // Проверка файла data.txt на содержание
+    if (file_open == NULL)
+    {
+        // Закрытие открытых потоков для чтения файла data.txt и перезаписи файла out.txt
+        fclose(file_open);
+        fclose(file_out);
+        // Остановит программу и выдаст ошибку, например -> Error open files!: No such file or directory
+        perror("Error open files!");
+        fprintf(stderr, "No open files: %s\n", filenameOpen);
+        // Возвращаем не 0, тк код не выполнился
+        return 1;
+        // Выводим ошибку компиляции, нельзя использовать в главной функции - main
+        // exit(errno);
+    }
+
+    // Получаем текущее время и дату
+    TimeIsNow current_time;
+    getTimeIsNow(&current_time);
+
+    DataIsNow current_data;
+    getDataIsNow(&current_data);
+
+    // Записываем текущее время и дату в файл out.txt
+    addTimeAndDataIsNowFiles(file_out, current_time, current_data);
+
+    // Объявляем переменную для хранения считанного символа
+    char ch;
+
+    // Работа с потоками (файлами)
+    // Читаем файл посимвольно, EOF - достигнут конец файла
+    while ((ch = fgetc(file_open)) != EOF)
+    {
+        // Выводим символ в консоль
+        putchar(ch);
+
+        // Записываем символ в выходной файл
+        fputc(ch, file_out);
+    }
+
+    // Добавляем символ новой строки в конце записи файла
+    fputc('\n', file_out);
+
+    // Закрытие открытых потоков для чтения файла data.txt и перезаписи файла out.txt
+    fclose(file_open);
+    fclose(file_out);
+
+    return 0;
+}
+
+// Функция для получения текущего времени и записи его в структуру TimeIsNow
+// Параметр TimeIsNow *time_now: Это указатель на структуру TimeIsNow
+void getTimeIsNow(TimeIsNow *time_now)
+{
+    // Получаем текущее время в виде количества секунд с начала эпохи (1 января 1970 года)
+    time_t current_time;
+    time(&current_time);
+
+    // Преобразуем время в структуру tm, которая содержит компоненты даты и времени
+    struct tm *local_time = localtime(&current_time);
+
+    // Записываем часы, минуты и секунды в поля структуры time_now
+    // Оператор -> используется для доступа к полям структуры через указатель
+    time_now->hours = local_time->tm_hour;
+    time_now->minuts = local_time->tm_min;
+    time_now->seconds = local_time->tm_sec;
+}
+
+// Функция для получения текущей даты и записи его в структуру DataIsNow
+// Параметр DataIsNow *data_now: Это указатель на структуру DataIsNow
+void getDataIsNow(DataIsNow *data_now)
+{
+    // Получаем текущее время в виде количества секунд с начала эпохи (1 января 1970 года)
+    time_t current_time;
+    time(&current_time);
+
+    // Преобразуем время в структуру tm, которая содержит компоненты даты и времени
+    struct tm *local_time = localtime(&current_time);
+
+    // Записываем день, месяц и год в поля структуры data_now
+    // Оператор -> используется для доступа к полям структуры через указатель
+    data_now->days = local_time->tm_mday;
+    data_now->months = local_time->tm_mon;
+    data_now->years = local_time->tm_year + 1900;
+}
+
+// Функция для вывода времени из структур TimeIsNow и DataIsNow в формате чч:мм:сс
+void addTimeAndDataIsNowFiles(FILE *file, TimeIsNow time, DataIsNow data)
+{
+    // Записываем время в формате чч:мм:сс с ведущими нулями для однозначных чисел
+    fprintf(file, "======= | %02d:%02d:%04d | %02d:%02d:%02d | =======\n", data.days, data.months, data.years, time.hours, time.minuts, time.seconds);
+}
+
+// Функция для чтения файла с числами и поиска их суммы
+int file_numbers()
+{
+    // Создание двух потоков: на чтение (-r) файла data.txt и перезапись (-w) файла out.txt
+    const char *filenameOpen = "data.txt";
+    const char *filenameClose = "out.txt";
+    FILE *file_open = fopen("assets/data.txt", "r"); // открыть файл data.txt на чтение - поток file_open
+    FILE *file_out = fopen("assets/numbers.txt", "w");   // открыть файл out.txt на запись - поток
 
     // Проверка файла data.txt на содержание
     if (file_open == NULL)
     {
         // Остановит программу и выдаст ошибку, например -> Error open files!: No such file or directory
         perror("Error open files!");
-        fprintf(stderr, "No open files: %s\n", filename);
+        fprintf(stderr, "No open files: %s\n", filenameOpen);
         // Возвращаем не 0, тк код не выполнился
         return 1;
         // Выводим ошибку компиляции, нельзя использовать в главной функции - main
@@ -102,7 +232,7 @@ int main()
         printf("i=%d x=%d sum=%d\n", i, x, sum); // отладочная печать в поток stdout
     }
 
-    fprintf(file_out, "Sum numbers file %s = %d\n", filename, sum); // результат пишем в поток file_out
+    fprintf(file_out, "Sum numbers file %s = %d\n", filenameOpen, sum); // результат пишем в поток file_out
 
     // Закрытие открытых потоков для чтения файла data.txt и перезаписи файла out.txt
     fclose(file_open);
