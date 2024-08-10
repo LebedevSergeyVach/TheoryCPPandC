@@ -1,3 +1,0 @@
-Hello, World!
-Programming on C!
-Good bye!

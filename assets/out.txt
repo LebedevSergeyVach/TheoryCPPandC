@@ -1,1 +1,12 @@
-Sum numbers file data.txt = 55
+======= | 11:07:2024 | 01:29:57 | =======
+Hello, World!
+Programming on C!
+Good bye!
+======= | 11:07:2024 | 01:33:51 | =======
+Hello, World!
+Programming on C!
+Good bye!
+======= | 11:07:2024 | 01:34:35 | =======
+Hello, World!
+Programming on C!
+Good bye!
