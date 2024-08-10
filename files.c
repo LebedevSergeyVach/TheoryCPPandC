@@ -92,8 +92,11 @@ void getTimeIsNow(TimeIsNow *time_now);
 // Параметр DataIsNow *data_now: Это указатель на структуру DataIsNow
 void getDataIsNow(DataIsNow *data_now);
 
-// Функция для вывода времени из структур TimeIsNow и DataIsNow в формате чч:мм:сс
+// Функция для выводав в файл времени и даты из структур TimeIsNow и DataIsNow в формате ======= | дд:мм:гггг | чч:мм:сс | =======
 void addTimeAndDataIsNowFiles(FILE *file, TimeIsNow time, DataIsNow data);
+
+// Функция для выводав в терминал времени и даты из структур TimeIsNow и DataIsNow в формате ===== | дд:мм:гггг | чч:мм:сс | =====
+void printTimeAndDataIsNow(TimeIsNow time, DataIsNow data);
 
 // Функция для чтения файла с числами и поиска их суммы
 int file_numbers();
@@ -128,6 +131,9 @@ int main()
     DataIsNow current_data;
     getDataIsNow(&current_data);
 
+    // Выводим в терминал дату и время 
+    printTimeAndDataIsNow(current_time, current_data);
+
     // Записываем текущее время и дату в файл out.txt
     addTimeAndDataIsNowFiles(file_out, current_time, current_data);
 
@@ -147,6 +153,9 @@ int main()
 
     // Добавляем символ новой строки в конце записи файла
     fputc('\n', file_out);
+    fprintf(file_out, "-----------------------------------------\nThe data is copied from the %s file to the %s file.\n", filenameOpen, filenameClose);
+
+    printf("\n-----------------------------------------\nThe data is copied from the %s file to the %s file.\n", filenameOpen, filenameClose);
 
     // Закрытие открытых потоков для чтения файла data.txt и перезаписи файла out.txt
     fclose(file_open);
@@ -195,7 +204,14 @@ void getDataIsNow(DataIsNow *data_now)
 void addTimeAndDataIsNowFiles(FILE *file, TimeIsNow time, DataIsNow data)
 {
     // Записываем время в формате чч:мм:сс с ведущими нулями для однозначных чисел
-    fprintf(file, "======= | %02d:%02d:%04d | %02d:%02d:%02d | =======\n", data.days, data.months, data.years, time.hours, time.minuts, time.seconds);
+    fprintf(file, "\n======= | %02d:%02d:%04d | %02d:%02d:%02d | =======\n", data.days, data.months, data.years, time.hours, time.minuts, time.seconds);
+}
+
+// Функция для выводав в терминал времени и даты из структур TimeIsNow и DataIsNow в формате ===== | дд:мм:гггг | чч:мм:сс | =====
+void printTimeAndDataIsNow(TimeIsNow time, DataIsNow data)
+{
+    // Выводим время в формате чч:мм:сс с ведущими нулями для однозначных чисел
+    printf("===== | %02d:%02d:%04d | %02d:%02d:%02d |======\n", data.days, data.months, data.years, time.hours, time.minuts, time.seconds);
 }
 
 // Функция для чтения файла с числами и поиска их суммы
@@ -204,8 +220,8 @@ int file_numbers()
     // Создание двух потоков: на чтение (-r) файла data.txt и перезапись (-w) файла out.txt
     const char *filenameOpen = "data.txt";
     const char *filenameClose = "out.txt";
-    FILE *file_open = fopen("assets/data.txt", "r"); // открыть файл data.txt на чтение - поток file_open
-    FILE *file_out = fopen("assets/numbers.txt", "w");   // открыть файл out.txt на запись - поток
+    FILE *file_open = fopen("assets/data.txt", "r");   // открыть файл data.txt на чтение - поток file_open
+    FILE *file_out = fopen("assets/numbers.txt", "w"); // открыть файл out.txt на запись - поток
 
     // Проверка файла data.txt на содержание
     if (file_open == NULL)

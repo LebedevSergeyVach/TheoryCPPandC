@@ -1,12 +1,28 @@
-======= | 11:07:2024 | 01:29:57 | =======
+
+======= | 11:07:2024 | 02:08:37 | =======
 Hello, World!
-Programming on C!
+I fuck hard in the C programming language!
 Good bye!
-======= | 11:07:2024 | 01:33:51 | =======
+-----------------------------------------
+The data is copied from the data.txt file to the out.txt file.
+
+======= | 11:07:2024 | 02:09:49 | =======
 Hello, World!
-Programming on C!
+I fuck hard in the C programming language!
 Good bye!
-======= | 11:07:2024 | 01:34:35 | =======
+-----------------------------------------
+The data is copied from the data.txt file to the out.txt file.
+
+======= | 11:07:2024 | 02:09:51 | =======
 Hello, World!
-Programming on C!
+I fuck hard in the C programming language!
 Good bye!
+-----------------------------------------
+The data is copied from the data.txt file to the out.txt file.
+
+======= | 11:07:2024 | 02:09:52 | =======
+Hello, World!
+I fuck hard in the C programming language!
+Good bye!
+-----------------------------------------
+The data is copied from the data.txt file to the out.txt file.
