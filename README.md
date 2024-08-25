@@ -16,7 +16,7 @@ gcc main.c
 ### Show additional warnings from the gcc compiler
 #### -Wall -Wextra - flags that include warnings to improve code quality and detect potential problems
 ```commandline
-gcc -Wall -Wextra main.c
+gcc -Wall -Wextra -Werror main.c
 ```
 
 ### Running compiled code
@@ -29,7 +29,10 @@ gcc -Wall -Wextra main.c
 
 ### Formatting C code in Visual Studio Code
 #### Install the extension [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) in Visual Studio Code
-#### Press CTRL + SHIFT + P ➜ enter Format Document ➜ select C/C++ or press ALT + SHIFT + F
+
+#### Windows: Press CTRL + SHIFT + P ➜ enter Format Document ➜ select C/C++ or press ALT + SHIFT + F
+
+#### Mac Os: Press SHIFT + COMMAND + P ➜ enter Format Document ➜ select C/C++ or press SHIFT + OPTION + F
 
 ---
 
@@ -60,7 +63,7 @@ gcc main.c
 ### Показать дополнительные предупреждения от компилятора gcc
 #### -Wall -Wextra - флаги, включающие предупреждения для повышения качества кода и обнаружения потенциальных проблем
 ```commandline
-gcc -Wall -Wextra main.c
+gcc -Wall -Wextra -Werror main.c
 ```
 
 ### Запуск скомпилированного кода 
@@ -73,7 +76,10 @@ gcc -Wall -Wextra main.c
 
 ### Форматирование кода на C в Visual Studio Code
 #### Установить расширение [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) в Visual Studio Code
-#### Нажать комбинацию клавиш CTRL + SHIFT + P ➜ ввести Format Document ➜ выбрать C/C++ или нажать комбинацию клавиш ALT + SHIFT + F
+
+#### Windows: Нажать комбинацию клавиш CTRL + SHIFT + P ➜ ввести Format Document ➜ выбрать C/C++ или нажать комбинацию клавиш ALT + SHIFT + F
+
+#### Mac OS: Нажать комбинацию клавиш SHIFT + COMMAND + P ➜ ввести Format Document ➜ выбрать C/C++ или нажать комбинацию клавиш SHIFT + OPTION + F
 
 ---
 
