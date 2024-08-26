@@ -3,7 +3,7 @@
 
 ---
 
-### Compiling code using the gcc compiler
+### Compiling code using the **gcc** compiler
 #### [name] - the name of the compiled one .exe file (main.exe, main.out ...)
 ```commandline
 gcc main.c -o [name]
