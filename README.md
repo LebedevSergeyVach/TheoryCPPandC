@@ -26,9 +26,9 @@ gcc -Wall -Wextra -Werror main.c
 ```
 
 ### Static code analysis **cppcheck** ➜ detect potential errors and problems in the code
-#### [name] - the name of the compiled file (main.exe, main.out ...)
+#### [name] - the name of the compiled file (main.c ...)
 ```commandline
-cppcheck --enable=all --suppress=missingIncludeSystem ./[name]
+cppcheck --enable=all --suppress=missingIncludeSystem [name]
 ```
 
 ### Checking for memory leaks **leaks** compiled file on **Mac OS**
@@ -93,9 +93,9 @@ gcc -Wall -Wextra -Werror main.c
 ```
 
 ### Статический анализ кода **cppcheck** ➜ обнаружить потенциальные ошибки и проблемы в коде
-#### [name] - название скомпилированного файла (main.exe, main.out ...)
+#### [name] - название скомпилированного файла (main.c ...)
 ```commandline
-cppcheck --enable=all --suppress=missingIncludeSystem ./[name]
+cppcheck --enable=all --suppress=missingIncludeSystem [name]
 ```
 
 ### Проверка утечки памяти **leaks** скомпилированного файла на **Mac OS**
