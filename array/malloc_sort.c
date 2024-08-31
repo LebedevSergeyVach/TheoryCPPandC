@@ -6,67 +6,87 @@ void output_array(const int *array, int number);
 void sotr_array(int *array, int number);
 void swap(int *a, int *b);
 
-int main() {
+int main()
+{
     int programm = 0;
 
     int number;
-    if (scanf("%d", &number) != 1 || getchar() != '\n') {
+    if (scanf("%d", &number) != 1 || getchar() != '\n')
+    {
         programm = 1;
         printf("n/a");
-    } else {
+    }
+    else
+    {
         int *array = (int *)malloc(number * sizeof(int));
 
-        if (array == NULL) {
+        if (array == NULL)
+        {
             programm = 1;
             printf("n/a");
-        } else {
+        }
+        else
+        {
             int input = input_array(array, number);
 
-            if (input != 0) {
+            if (input != 0)
+            {
                 programm = 1;
                 printf("n/a");
-            } else {
+            }
+            else
+            {
                 sotr_array(array, number);
                 output_array(array, number);
-                free(array);
             }
         }
     }
+    
+    free(array);
 
     return programm;
 }
 
-int input_array(int *array, int numbe) {
+int input_array(int *array, int numbe)
+{
     int programm = 0;
 
-    for (int *p = array; p - array < numbe; p++) {
+    for (int *p = array; p - array < numbe; p++)
+    {
         scanf("%d", p);
     }
 
-    if (getchar() != '\n') {
+    if (getchar() != '\n')
+    {
         programm = 1;
     }
 
     return programm;
 }
 
-void output_array(const int *array, int number) {
-    for (int i = 0; i < number; i++) {
+void output_array(const int *array, int number)
+{
+    for (int i = 0; i < number; i++)
+    {
         printf("%d ", array[i]);
     }
 }
 
 // Selection Sort - Сортировка по выбору
-void sotr_array(int *array, int number) {
-    for (int i = 0; i < number; i++) {
+void sotr_array(int *array, int number)
+{
+    for (int i = 0; i < number; i++)
+    {
         int min_element = i;
         for (int j = i + 1; j < number; j++)
-            if (array[j] < array[min_element]) min_element = j;
+            if (array[j] < array[min_element])
+                min_element = j;
         swap(&array[min_element], &array[i]);
     }
 }
 
-void swap(int *a, int *b) {
+void swap(int *a, int *b)
+{
     int temp = *a;
     *a = *b;
     *b = temp;
