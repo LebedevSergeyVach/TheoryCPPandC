@@ -71,6 +71,8 @@ int main() {
     int score_player_one = 0, score_player_two = 0;
 
     initscr();
+    noecho();
+    timeout(0);
 
     while (TRUE) {
         refresh();
