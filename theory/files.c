@@ -131,7 +131,7 @@ int main()
     DataIsNow current_data;
     getDataIsNow(&current_data);
 
-    // Выводим в терминал дату и время 
+    // Выводим в терминал дату и время
     printTimeAndDataIsNow(current_time, current_data);
 
     // Записываем текущее время и дату в файл out.txt
