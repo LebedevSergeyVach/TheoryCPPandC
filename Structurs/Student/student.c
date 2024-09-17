@@ -1,44 +1,79 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "student.h"
 
-#include "student_struct.h"
-#include "student_stat.h"
+int input_array_students(Student *students, int count_students);
+int outpet_name_student_marks(Student *students, int count_students);
 
-int main()
-{
+int main() {
     int programm = 0;
-    int number;
+    int count_students;
 
-    if (scanf("%d", &number) != 1 || getchar() != '\n')
-    {
+    if (scanf("%d", &count_students) != 1 || getchar() != '\n') {
         programm = 1;
-    }
-    else
-    {
-        struct Student *students = malloc(number * sizeof(struct Student));
+    } else {
+        Student *students = malloc(count_students * sizeof(Student));
 
-        if (students == NULL)
-        {
+        if (input_array_students(students, count_students)) {
+            if (outpet_name_student_marks(students, count_students) == 0) {
+                programm = 1;
+            }
+        } else {
             programm = 1;
-        }
-        else if (input(students, number) != 0)
-        {
-            programm = 1;
-        }
-        else
-        {
-            sort_student_mark(students, number);
-            output(students, number);
         }
 
         free(students);
     }
 
-    if (programm != 0)
-    {
+    if (programm != 0) {
         printf("n/a");
     }
 
     return programm;
+}
+
+int input_array_students(Student *students, int count_students) {
+    int programm = 1;
+
+    for (int i = 0; i < count_students; i++) {
+        scanf("%20s", students[i].name);
+
+        if (scanf("%d", &students[i].marks) != 1 || getchar() != '\n') {
+            programm = 0;
+            break;
+        }
+    }
+
+    return programm;
+}
+
+int outpet_name_student_marks(Student *students, int count_students) {
+    int sum_marks = 0;
+    int average_value;
+    int count_name_student_marks = 0;
+
+    for (int i = 0; i < count_students; i++) {
+        sum_marks += students[i].marks;
+    }
+
+    average_value = sum_marks / count_students;
+
+    for (int i = 0; i < count_students; i++) {
+        if (students[i].marks > average_value) {
+            count_name_student_marks++;
+        }
+    }
+
+    int count = 0;
+    for (int i = 0; i < count_students; i++) {
+        if (students[i].marks > average_value) {
+            printf("%s", students[i].name);
+
+            if (count < count_name_student_marks - 1) {
+                printf(", ");
+            }
+
+            count++;
+        }
+    }
+
+    return count_name_student_marks;
 }
