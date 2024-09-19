@@ -1,0 +1,38 @@
+CC=gcc
+CFLAGS = -Wall -Werror -Wextra
+CFLAGCLOGGER = -DLOGGER
+
+MEMORYFLAGS = MallocStackLogging=1 leaks -q -atExit --
+
+BUILD = ../build
+
+FILESBILDCIPHER = cipher.c
+OUTFILESCIPHER = cipher
+
+FILESBILDCIPHERLOGGER = cipher.c logger.c
+OUTFILESCIPHERLOGGER = logging_cipher
+
+.PHONY: all clean
+
+all: cipher logging_cipher clean
+
+cipher: $(FILESBILDCIPHER)
+	@$(CC) $(CFLAGS) $(FILESBILDCIPHER) -o $(OUTFILESCIPHER)
+	@mkdir -p $(BUILD)
+	@mv $(OUTFILESCIPHER) $(BUILD)
+
+logging_cipher: $(FILESBILDCIPHERLOGGER)
+	@$(CC) $(CFLAGS) $(CFLAGCLOGGER) $(FILESBILDCIPHERLOGGER) -o $(OUTFILESCIPHERLOGGER)
+	@mkdir -p $(BUILD)
+	@mv $(OUTFILESCIPHERLOGGER) $(BUILD)
+
+run: $(FILESBILDCIPHERLOGGER)
+	@$(CC) $(CFLAGS) $(CFLAGCLOGGER) $(FILESBILDCIPHERLOGGER) -o $(OUTFILESCIPHERLOGGER)
+	@$(MEMORYFLAGS) ./$(OUTFILESCIPHERLOGGER)
+	@rm $(OUTFILESCIPHERLOGGER)
+
+clean:
+	@rm -rf *.o *.out
+
+remove:
+	@rm -rf $(build)/$(OUTFILESCIPHER) $(build)/$(OUTFILESCIPHERLOGGER)
