@@ -48,11 +48,40 @@ valgrind --tool=memcheck --leak-check=yes ./[name]
 ---
 
 ### Formatting C code in Visual Studio Code
-#### Install the extension [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) in Visual Studio Code
+#### Install the extension [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) or [Clang-Format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format) in Visual Studio Code
 
-#### **Windows**: Press **CTRL + SHIFT + P** ➜ enter **Format Document** ➜ select **C/C++** or press **ALT + SHIFT + F**
+#### **Windows/Linux**: Press **CTRL + SHIFT + P** ➜ enter **Format Document** ➜ select **C/C++ Clang-Format** or press **ALT + SHIFT + F**
 
-#### **Mac Os**: Press **SHIFT + COMMAND + P** ➜ enter **Format Document** ➜ select **C/C++** or press **SHIFT + OPTION + F**
+#### **Mac Os**: Press **SHIFT + COMMAND + P** ➜ enter **Format Document** ➜ select **C/C++ Clang-Format** or press **SHIFT + OPTION + F**
+
+>For [Clang-Format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format), you need to install ```clang-format``` itself into the operating system
+
+#### **Windows**
+```commandline
+choco install llvm
+```
+
+#### **Mac Os**
+```commandline
+brew install clang-format
+```
+
+#### **Arch Linux**
+```commandline
+sudo pacman -S clang
+```
+
+>After installing ```Clang-Format```, the basic commands for working with the code format are
+
+#### Checking the code style
+```commandline
+clang-format -n main.c
+```
+
+#### Auto-formatting the code style
+```commandline
+clang-format -i main.c
+```
 
 ---
 
@@ -114,11 +143,40 @@ valgrind --tool=memcheck --leak-check=yes ./[name]
 ---
 
 ### Форматирование кода на C в Visual Studio Code
-#### Установить расширение [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) в Visual Studio Code
+#### Установить расширение [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) или [Clang-Format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format) в Visual Studio Code
 
-#### **Windows**: Нажать комбинацию клавиш **CTRL + SHIFT + P** ➜ ввести **Format Document** ➜ выбрать** C/C++** или нажать комбинацию клавиш** ALT + SHIFT + F**
+#### **Windows/Linux**: Нажать комбинацию клавиш **CTRL + SHIFT + P** ➜ ввести **Format Document** ➜ выбрать** C/C++ Clang-Format** или нажать комбинацию клавиш** ALT + SHIFT + F**
 
-#### **Mac OS**: Нажать комбинацию клавиш **SHIFT + COMMAND + P** ➜ ввести **Format Document** ➜ выбрать **C/C++** или нажать комбинацию клавиш** SHIFT + OPTION + F**
+#### **Mac OS**: Нажать комбинацию клавиш **SHIFT + COMMAND + P** ➜ ввести **Format Document** ➜ выбрать **C/C++ Clang-Format** или нажать комбинацию клавиш** SHIFT + OPTION + F**
+
+>Для [Clang-Format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format) необходимо установить сам ```clang-format``` в операционную систему
+
+#### **Windows**
+```commandline
+choco install llvm
+```
+
+#### **Mac Os**
+```commandline
+brew install clang-format
+```
+
+#### **Arch Linux**
+```commandline
+sudo pacman -S clang
+```
+
+>После установки ```Clang-Format``` основные команды для работы с форматом кода
+
+#### Проверка стиля кода
+```commandline
+clang-format -n main.c
+```
+
+#### Автоформати́рование стиля кода
+```commandline
+clang-format -i main.c
+```
 
 ---
 
