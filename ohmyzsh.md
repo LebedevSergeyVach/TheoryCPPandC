@@ -159,5 +159,5 @@ plugins=(
    pip
    jsontools
    python
-   )
+)
 ```
