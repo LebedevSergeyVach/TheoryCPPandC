@@ -2,7 +2,7 @@
 
 ## [CAT](.)
 
-### Опции cat
+### Опции `cat`
 
 | № | Опции | Описание |
 | ------ | ------ | ------ |
@@ -12,7 +12,7 @@
 | 4 | -s (GNU: --squeeze-blank) | сжимает несколько смежных пустых строк |
 | 5 | -t предполагает и -v (GNU: -T то же самое, но без применения -v) | также отображает табы как ^I |
 
-### [s21_cat.h](s21_cat.h)
+### [s21_flags_cat.h](s21_flags_cat.h)
 
 ```C
 // Определение флагов для опций
@@ -27,14 +27,16 @@
 
 ---
 
-### [s21_cat.c](s21_cat.c)
+### [s21_options_cat.c](s21_options_cat.c)
 
 #### `void parse_options(int argc, char * argv[], int * flags)`
 
 ```C
 // Функция для парсинга опций командной строки
-void parse_options(int argc, char *argv[], int *flags)
+int parse_options(int argc, char *argv[], int *flags)
 {
+    int program_execution = 0;
+
     // Определение длинных опций
     static struct option long_options[] = {
         {"number-nonblank", no_argument, 0, 'b'}, // Нумерация только непустых строк
@@ -70,10 +72,12 @@ void parse_options(int argc, char *argv[], int *flags)
             *flags |= FLAG_T; // Установка флага отображения табов как ^I
             break;
         default:
-            fprintf(stderr, "Usage: %s [-benst] [file...]\n", argv[0]);
-            exit(EXIT_FAILURE);
+            error_used_command(&program_execution, argv[0]);
+            break;
         }
     }
+
+    return program_execution;
 }
 ```
 
@@ -128,3 +132,143 @@ int getopt_long(int argc, char *const argv[], const char *shortopts, const struc
 Оператор |= (битовое ИЛИ с присваиванием) используется для установки определенного бита в переменной flags.
 
 ---
+
+### [s21_process_cat_file.c](s21_process_cat_file.c)
+
+#### `void print_line(const char *line, int number, int is_nonblank)`
+
+```C
+// Функция для вывода строки с учетом нумерации
+void print_line(const char *line, int number, int is_nonblank)
+{
+    // Если строка непустая и флаг нумерации непустых строк установлен
+    if (is_nonblank)
+    {
+        printf("%6d\t", number); // Выводим номер строки
+    }
+    printf("%s", line); // Выводим саму строку
+}
+```
+
+#### Аргументы
+
+- **`const char *line`**: Указатель на строку, которую нужно вывести.
+- **`int number`**: Номер строки, который нужно вывести (если строка непустая).
+- **`int is_nonblank`**: Флаг, указывающий, является ли строка непустой. Если `is_nonblank` равен `1`, то строка непустая и нужно вывести номер строки.
+
+---
+
+#### `void process_file(FILE *file, int flags)`
+
+
+```C
+void process_file(FILE *file, int flags)
+{
+    char line[MAX_LINE_LENGTH]; // Буфер для хранения строки
+    int line_number = 0;        // Счетчик строк
+    int prev_line_empty = 0;    // Флаг, указывающий, была ли предыдущая строка пустой
+
+    // Читаем файл построчно
+    while (fgets(line, MAX_LINE_LENGTH, file))
+    {
+        int is_nonblank = (line[0] != '\n'); // Проверяем, является ли строка непустой
+        int is_empty = (line[0] == '\n');    // Проверяем, является ли строка пустой
+
+        // Обработка флага -s (сжатие смежных пустых строк)
+        if (flags & 0x08)
+        {
+            if (is_empty)
+            {
+                if (prev_line_empty)
+                {
+                    continue; // Пропускаем строку, если она пустая и предыдущая тоже
+                }
+                prev_line_empty = 1; // Устанавливаем флаг, что текущая строка пустая
+            }
+            else
+            {
+                prev_line_empty = 0; // Сбрасываем флаг, если строка непустая
+            }
+        }
+
+        // Обработка флага -e (отображение символа конца строки как $)
+        if (flags & 0x02)
+        {
+            if (line[strlen(line) - 1] == '\n')
+            {
+                line[strlen(line) - 1] = '$'; // Заменяем символ конца строки на $
+                strcat(line, "\n");           // Добавляем символ новой строки
+            }
+        }
+
+        // Обработка флага -t (отображение табов как ^I)
+        if (flags & 0x10)
+        {
+            for (char *p = line; *p; ++p)
+            {
+                if (*p == '\t')
+                {
+                    // Сдвигаем оставшуюся часть строки вправо на два символа
+                    memmove(p + 2, p + 1, strlen(p + 1) + 1);
+                    *p = '^'; // Заменяем таб на ^
+                    *(++p) = 'I'; // Добавляем I
+                }
+                // Проверка на четыре пробела подряд
+                else if (*p == ' ' && *(p + 1) == ' ' && *(p + 2) == ' ' && *(p + 3) == ' ')
+                {
+                    // Сдвигаем оставшуюся часть строки вправо на два символа
+                    memmove(p + 2, p + 4, strlen(p + 4) + 1);
+                    *p = '^'; // Заменяем пробелы на ^
+                    *(++p) = 'I'; // Добавляем I
+                }
+            }
+        }
+
+        // Обработка флага -b (нумерация только непустых строк)
+        if (flags & 0x01)
+        {
+            if (is_nonblank)
+            {
+                print_line(line, ++line_number, 1);
+            }
+            else
+            {
+                print_line(line, 0, 0);
+            }
+        }
+        // Обработка флага -n (нумерация всех строк)
+        else if (flags & 0x04)
+        {
+            print_line(line, ++line_number, 1);
+        }
+        // Без флагов нумерации
+        else
+        {
+            print_line(line, 0, 0);
+        }
+    }
+}
+```
+
+#### Аргументы
+
+- **`FILE *file`**: Указатель на файл, который нужно обработать.
+- **`int flags`**: Битовый флаг, указывающий, какие опции были переданы в программу.
+
+---
+
+#### Цикл чтения файла `fgets`
+
+```C
+char *fgets(char *str, int n, FILE *stream);
+```
+
+- **`str`**: Указатель на буфер, в который будет записана прочитанная строка.
+- **`n`**: Максимальное количество символов, которые будут прочитаны (включая завершающий нулевой символ).
+- **`stream`**: Указатель на файл, из которого будет производиться чтение.
+
+Используется для чтения файла построчно до тех пор, пока не будет достигнут конец файла (EOF).
+
+---
+
+#### [doc.md](doc.md)

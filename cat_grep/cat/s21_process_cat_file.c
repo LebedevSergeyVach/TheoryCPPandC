@@ -1,4 +1,4 @@
-#include "common.h"
+#include "s21_process_cat_file.h"
 
 void print_line(const char *line, int number, int is_nonblank)
 {
