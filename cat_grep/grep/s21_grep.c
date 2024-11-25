@@ -9,7 +9,6 @@ int main(int argc, char *argv[])
 
     int file_start_index = parse_options(argc, argv, &flags, &pattern, &program_execution);
 
-    // Проверка наличия шаблона
     if (pattern == NULL)
     {
         fprintf(stderr, "Требуется шаблон для работы поиска.\n");
@@ -18,10 +17,8 @@ int main(int argc, char *argv[])
 
     if (!program_execution)
     {
-        // Количество файлов
         int file_count = argc - file_start_index;
 
-        // Обработка файлов или стандартного ввода
         if (file_start_index == argc)
         {
             process_file_grep(flags, pattern, stdin, "-", file_count, &program_execution);
