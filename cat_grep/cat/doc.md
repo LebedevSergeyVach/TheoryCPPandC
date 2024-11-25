@@ -160,7 +160,6 @@ void print_line(const char *line, int number, int is_nonblank)
 
 #### `void process_file(FILE *file, int flags)`
 
-
 ```C
 void process_file(FILE *file, int flags)
 {
@@ -250,7 +249,7 @@ void process_file(FILE *file, int flags)
 }
 ```
 
-#### Аргументы
+#### Аргументы функции
 
 - **`FILE *file`**: Указатель на файл, который нужно обработать.
 - **`int flags`**: Битовый флаг, указывающий, какие опции были переданы в программу.

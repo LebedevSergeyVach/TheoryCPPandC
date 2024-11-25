@@ -4,12 +4,12 @@ void print_line(const char *line, int number, int is_nonblank)
 {
     if (is_nonblank)
     {
-        printf("%6d\t", number);
+        printf(BLUE "%6d:\t" RESET, number);
     }
     printf("%s", line);
 }
 
-void process_file(FILE *file, int flags)
+void process_file_cat(FILE *file, int flags)
 {
     char line[MAX_LINE_LENGTH];
     int line_number = 0;
@@ -20,7 +20,7 @@ void process_file(FILE *file, int flags)
         int is_nonblank = (line[0] != '\n');
         int is_empty = (line[0] == '\n');
 
-        if (flags & 0x08)
+        if (flags & FLAG_S)
         {
             if (is_empty)
             {
@@ -36,7 +36,7 @@ void process_file(FILE *file, int flags)
             }
         }
 
-        if (flags & 0x02)
+        if (flags & FLAG_E)
         {
             if (line[strlen(line) - 1] == '\n')
             {
@@ -45,7 +45,7 @@ void process_file(FILE *file, int flags)
             }
         }
 
-        if (flags & 0x10)
+        if (flags & FLAG_T)
         {
             for (char *p = line; *p; ++p)
             {
@@ -64,7 +64,35 @@ void process_file(FILE *file, int flags)
             }
         }
 
-        if (flags & 0x01)
+        if (flags & FLAG_V)
+        {
+            for (char *p = line; *p; ++p)
+            {
+                unsigned char uc = (unsigned char)*p;
+                
+                if (uc < 32 && uc != '\t' && uc != '\n')
+                {
+                    *p = uc + 64;
+                    memmove(p + 1, p, strlen(p) + 1);
+                    *p = '^';
+                }
+                else if (uc == 127)
+                {
+                    *p = '?';
+                    memmove(p + 1, p, strlen(p) + 1);
+                    *p = '^';
+                }
+                else if (uc > 127)
+                {
+                    *p = uc - 128;
+                    memmove(p + 1, p, strlen(p) + 1);
+                    *p = 'M';
+                    *(++p) = '-';
+                }
+            }
+        }
+
+        if (flags & FLAG_B)
         {
             if (is_nonblank)
             {
@@ -75,7 +103,7 @@ void process_file(FILE *file, int flags)
                 print_line(line, 0, 0);
             }
         }
-        else if (flags & 0x04)
+        else if (flags & FLAG_N)
         {
             print_line(line, ++line_number, 1);
         }

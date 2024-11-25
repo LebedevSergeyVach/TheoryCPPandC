@@ -1,11 +1,20 @@
 #include "error.h"
 
 
-void error_used_command(int *program_execution, const char *name)
+void error_used_command_cat(int *program_execution, const char *name)
 {
     fprintf(
         stderr,
-        "Неверное использование команды.\nИспользуйте: %s -[benst] [file]\n",
+        "Неверное использование команды.\nИспользуйте: %s -[benstvET] [file]\n",
+        name);
+
+    *program_execution = 1;
+}
+
+void error_used_command_grep(int *program_execution, const char *name) {
+        fprintf(
+        stderr,
+        "Неверное использование команды.\nИспользуйте: %s -[-e pattern] [-ivcln] [file]\n",
         name);
 
     *program_execution = 1;
