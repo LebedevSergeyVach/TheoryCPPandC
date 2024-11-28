@@ -1,6 +1,6 @@
 #include "s21_options_grep.h"
 
-int parse_options(int argc, char *argv[], int *flags, char **pattern, int *program_execution)
+int parse_options(int argc, char *argv[], int *flags, char **pattern, int *pattern_dynamic, int *program_execution)
 {
     static struct option long_options[] = {
         {"regexp", required_argument, 0, 'e'},
@@ -14,6 +14,7 @@ int parse_options(int argc, char *argv[], int *flags, char **pattern, int *progr
         {0, 0, 0, 0}};
 
     *pattern = NULL;
+    *pattern_dynamic = 0;
 
     int opt;
 
@@ -23,7 +24,33 @@ int parse_options(int argc, char *argv[], int *flags, char **pattern, int *progr
         {
         case 'e':
             *flags |= FLAG_E;
-            *pattern = optarg;
+
+            if (*pattern == NULL)
+            {
+                size_t len = strlen(optarg);
+                *pattern = malloc(len + 1);
+
+                if (*pattern == NULL)
+                {
+                    fprintf(stderr, RED "Ошибка выделения памяти для шаблона!\n" RESET);
+                    *program_execution = 1;
+                }
+
+                strcpy(*pattern, optarg);
+                *pattern_dynamic = 1;
+            }
+            else
+            {
+                char *new_pattern = concat_patterns(*pattern, optarg, program_execution);
+
+                if (new_pattern == NULL)
+                {
+                    *program_execution = 1;
+                }
+
+                free(*pattern);
+                *pattern = new_pattern;
+            }
             break;
         case 'i':
             *flags |= FLAG_I;
@@ -46,6 +73,7 @@ int parse_options(int argc, char *argv[], int *flags, char **pattern, int *progr
         case 'f':
             *flags |= FLAG_F;
             read_patterns_from_file(optarg, pattern, program_execution);
+            *pattern_dynamic = 1;
             break;
         default:
             error_used_command_grep(program_execution, argv[0]);

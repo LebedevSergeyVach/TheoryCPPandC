@@ -108,6 +108,7 @@ flags &= ~FLAG_E  ->  flags = 0000 0000
 #### `int parse_options(int argc, char *argv[], int *flags, char **pattern, int *program_execution)`
 
 ```C
+// Функция для парсинга опций командной строки
 int parse_options(int argc, char *argv[], int *flags, char **pattern, int *program_execution)
 {
     // Определение длинных опций для getopt_long
@@ -119,11 +120,14 @@ int parse_options(int argc, char *argv[], int *flags, char **pattern, int *progr
         {"files-with-matches", no_argument, 0, 'l'}, // Опция -l без аргумента
         {"line-number", no_argument, 0, 'n'},        // Опция -n без аргумента
         {"file", required_argument, 0, 'f'},         // Опция -f с обязательным аргументом
+        {"no-filename", no_argument, 0, 'h'},        // Опция -h без аргумента 
         {0, 0, 0, 0}                                 // Завершающий элемент
     };
 
-    // Инициализация указателя на шаблон
+
+    // Инициализация указателей на шаблон и флаг динамического выделения памяти
     *pattern = NULL;
+    *pattern_dynamic = 0;
 
     // Переменная для хранения текущей опции
     int opt;
@@ -134,27 +138,67 @@ int parse_options(int argc, char *argv[], int *flags, char **pattern, int *progr
         switch (opt)
         {
         case 'e':
-            *flags |= FLAG_E;  // Установка флага FLAG_E
-            *pattern = optarg; // Сохранение шаблона из аргумента опции
+            // Установка флага FLAG_E и обработка опции -e
+            *flags |= FLAG_E;
+
+            // Если шаблон еще не инициализирован, выделение памяти и копирование значения опции
+            if (*pattern == NULL)
+            {
+                size_t len = strlen(optarg);
+                *pattern = malloc(len + 1);
+
+                if (*pattern == NULL)
+                {
+                    fprintf(stderr, RED "Ошибка выделения памяти для шаблона!\n" RESET);
+                    *program_execution = 1;
+                }
+
+                strcpy(*pattern, optarg);
+                *pattern_dynamic = 1;
+            }
+            else
+            {
+                // Если шаблон уже инициализирован, происходит объединение его с новым значением опции
+                char *new_pattern = concat_patterns(*pattern, optarg, program_execution);
+
+                if (new_pattern == NULL)
+                {
+                    *program_execution = 1;
+                }
+
+                free(*pattern);
+                *pattern = new_pattern;
+            }
             break;
         case 'i':
-            *flags |= FLAG_I; // Установка флага FLAG_I
+            // Установка флага FLAG_I
+            *flags |= FLAG_I;
             break;
         case 'v':
-            *flags |= FLAG_V; // Установка флага FLAG_V
+            // Установка флага FLAG_V
+            *flags |= FLAG_V;
             break;
         case 'c':
-            *flags |= FLAG_C; // Установка флага FLAG_C
+            // Установка флага FLAG_C
+            *flags |= FLAG_C;
             break;
         case 'l':
-            *flags |= FLAG_L; // Установка флага FLAG_L
+            // Установка флага FLAG_L
+            *flags |= FLAG_L;
             break;
         case 'n':
-            *flags |= FLAG_N; // Установка флага FLAG_N
+            // Установка флага FLAG_N
+            *flags |= FLAG_N;
+            break;
+        case 'h':
+            // Установка флага FLAG_H
+            *flags |= FLAG_H;
             break;
         case 'f':
-            *flags |= FLAG_F; // Установка флага FLAG_F
-            read_patterns_from_file(optarg, pattern, program_execution); // Чтение шаблонов из переданного файла
+            // Установка флага FLAG_F
+            *flags |= FLAG_F;
+            // Чтение шаблонов из переданного файла
+            read_patterns_from_file(optarg, pattern, program_execution);
             break;
         default:
             error_used_command_grep(program_execution, argv[0]); // Вызов функции для обработки ошибки
@@ -162,18 +206,18 @@ int parse_options(int argc, char *argv[], int *flags, char **pattern, int *progr
         }
     }
 
-    // Если произошла ошибка, сбрасываем индекс опций
+    // Если произошла ошибка выполнения программы, сбрасывается индекс опций
     if (*program_execution)
     {
         optind = -1;
     }
-    // Если шаблон не был указан с флагом -e, берем первый аргумент после флагов
+    // Если шаблон не инициализирован и есть аргументы командной строки, используется первый аргумент как шаблон
     else if (*pattern == NULL && optind < argc)
     {
         *pattern = argv[optind++];
     }
 
-    // Возвращаем индекс следующего аргумента после флагов
+    // Возвращается индекс следующего аргумента после флагов
     return optind;
 }
 ```
@@ -184,6 +228,7 @@ int parse_options(int argc, char *argv[], int *flags, char **pattern, int *progr
 - **`char *argv[]`**: Массив строк, содержащий аргументы командной строки.
 - **`int *flags`**: Указатель на переменную, которая будет содержать флаги, соответствующие различным опциям.
 - **`char **pattern`**: Указатель на указатель на строку, которая будет содержать шаблон для поиска.
+- **`int *pattern_dynamic`**: Указатель на переменную, которая будет установлена в 1, если память для шаблона была выделена динамически.
 - **`int *program_execution`**: Указатель на переменную, которая указывает на состояние выполнения программы (0 - успешно, 1 - ошибка).
 
 #### Возвращаемое значение функции `parse_options`
@@ -563,6 +608,74 @@ void read_patterns_from_file(const char *filename, char **pattern, int *program_
 Открывает файл, читает каждую строку, удаляет символ новой строки (если он есть), и сохраняет строку как шаблон.
 И объединения их в одну строку, разделенную символом "|".
 Это позволяет использовать несколько шаблонов в одном регулярном выражении.
+
+---
+
+### [s21_read_and_combination_patterns.c](s21_read_and_combination_patterns.c)
+
+#### `char *concat_patterns(const char *pattern1, const char *pattern2, int *program_execution)`
+
+```C
+// Функция для объединения двух шаблонов с разделителем "|"
+char *concat_patterns(const char *pattern1, const char *pattern2, int *program_execution)
+{
+    // Вычесление длины первого шаблона, если он не равен NULL
+    size_t len1 = (pattern1 != NULL) ? strlen(pattern1) : 0;
+    // Вычесление длины второго шаблона
+    size_t len2 = strlen(pattern2);
+
+    // Выдление памяти для результирующей строки, ("|" + "\0")
+    char *result = malloc(len1 + len2 + 2);
+
+    if (result == NULL)
+    {
+        fprintf(stderr, RED "Ошибка выделения памяти для шаблона!\n" RESET);
+        *program_execution = 1;
+    }
+
+    if (!*program_execution)    
+    {
+        // Если первый шаблон не равен NULL, копируем его в результирующую строку + "|"
+        if (pattern1 != NULL)
+        {
+            strcpy(result, pattern1);
+            strcat(result, "|");
+        }
+        else
+        {
+            // Если первый шаблон равен NULL, начинаем результирующую строку с нулевого символа
+            result[0] = '\0';
+        }
+
+        // Добавление второго шаблона к результирующей строке
+        strcat(result, pattern2);
+    }
+
+    if (*program_execution)
+    {
+        free(result);
+        result = NULL;
+    }
+
+    return result;
+}
+```
+
+#### Аргументы функции `concat_patterns`
+
+- **`const char *pattern1`**: Первый шаблон для объединения. Может быть `NULL`.
+- **`const char *pattern2`**: Второй шаблон для объединения.
+- **`int *program_execution`**: Указатель на переменную, которая будет установлена в 1 в случае ошибки выполнения программы.
+
+#### Возвращаемое значение `concat_patterns`
+
+- **`char *`**: Указатель на строку, содержащую объединенные шаблоны, разделенные символом `"|"`. Если произошла ошибка выделения памяти, возвращается `NULL`.
+
+#### Описание `concat_patterns`
+
+Функция `concat_patterns` объединяет два шаблона в одну строку, разделенную символом `"|"`.
+Если первый шаблон равен `NULL`, результирующая строка начинается с второго шаблона.
+Если произошла ошибка выделения памяти, функция устанавливает флаг ошибки выполнения программы и возвращает `NULL`.
 
 ---
 

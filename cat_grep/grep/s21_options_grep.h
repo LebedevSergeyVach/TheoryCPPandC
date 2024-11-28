@@ -7,10 +7,11 @@
 #include <getopt.h>
 
 #include "s21_flags_grep.h"
+#include "s21_read_and_combination_patterns.h"
 #include "s21_read_patterns_from_file.h"
 #include "../common/error.h"
 
 // Функция для парсинга опций командной строки
-int parse_options(int argc, char *argv[], int *flags, char **pattern, int *program_execution);
+int parse_options(int argc, char *argv[], int *flags, char **pattern, int *pattern_dynamic, int *program_execution);
 
 #endif

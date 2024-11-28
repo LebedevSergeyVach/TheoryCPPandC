@@ -6,13 +6,14 @@ int main(int argc, char *argv[])
 
     int flags = 0;
     char *pattern = NULL;
+    int pattern_dynamic = 0;
 
-    int file_start_index = parse_options(argc, argv, &flags, &pattern, &program_execution);
+    int file_start_index = parse_options(argc, argv, &flags, &pattern, &pattern_dynamic, &program_execution);
 
     if (pattern == NULL)
     {
         fprintf(stderr, RED "Требуется шаблон для работы поиска.\n" RESET);
-        error_used_command_grep(&program_execution, argv[0]);
+        program_execution = 1;
     }
 
     if (!program_execution)
@@ -41,7 +42,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (pattern != NULL)
+    if (pattern != NULL && pattern_dynamic)
     {
         free(pattern);
     }

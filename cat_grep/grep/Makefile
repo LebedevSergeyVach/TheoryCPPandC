@@ -8,9 +8,9 @@ MEMORY_LEAKS = MallocStackLogging=1 leaks -q -atExit --
 MEMORY_VALGRIND = valgrind --tool=memcheck --leak-check=yes -s
 
 OUT_FILE = s21_grep
-BUILD_FILES = s21_grep.c s21_options_grep.c s21_process_grep_file.c s21_read_patterns_from_file.c ../common/error.c
+BUILD_FILES = s21_grep.c s21_options_grep.c s21_process_grep_file.c s21_read_patterns_from_file.c s21_read_and_combination_patterns.c ../common/error.c
 
-TEST = -i -n -f test/pattern test/test_one.txt
+TEST = -i -n -e "tab" -e "hello" -e "on" test/*.txt
 
 .PHONY = all clean
 
