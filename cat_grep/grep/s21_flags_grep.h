@@ -7,5 +7,7 @@
 #define FLAG_C 0x08
 #define FLAG_L 0x10
 #define FLAG_N 0x20
+#define FLAG_F 0x40
+#define FLAG_H 0x80
 
 #endif

@@ -9,13 +9,15 @@ int parse_options(int argc, char *argv[], int *flags, char **pattern, int *progr
         {"count", no_argument, 0, 'c'},
         {"files-with-matches", no_argument, 0, 'l'},
         {"line-number", no_argument, 0, 'n'},
+        {"file", required_argument, 0, 'f'},
+        {"no-filename", no_argument, 0, 'h'},
         {0, 0, 0, 0}};
 
     *pattern = NULL;
 
     int opt;
 
-    while ((opt = getopt_long(argc, argv, "e:ivclnt", long_options, NULL)) != -1)
+    while ((opt = getopt_long(argc, argv, "e:ivclnf:h", long_options, NULL)) != -1)
     {
         switch (opt)
         {
@@ -37,6 +39,13 @@ int parse_options(int argc, char *argv[], int *flags, char **pattern, int *progr
             break;
         case 'n':
             *flags |= FLAG_N;
+            break;
+        case 'h':
+            *flags |= FLAG_H;
+            break;
+        case 'f':
+            *flags |= FLAG_F;
+            *pattern = read_patterns_from_file(optarg, program_execution);
             break;
         default:
             error_used_command_grep(program_execution, argv[0]);

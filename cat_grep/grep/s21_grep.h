@@ -1,4 +1,3 @@
-// s21_grep.h
 #ifndef S21_GREP_H
 #define S21_GREP_H
 

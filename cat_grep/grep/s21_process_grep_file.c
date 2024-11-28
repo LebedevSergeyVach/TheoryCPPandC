@@ -13,15 +13,20 @@ void process_file_grep(int flags, const char *pattern, FILE *file, const char *f
 
     if (regcomp(&regex, pattern, regex_flags) != 0)
     {
-        fprintf(stderr, "Недопустимое регулярное выражение: %s\n", pattern);
+        fprintf(stderr, YELLOW "Недопустимое регулярное выражение: " BLUE "%s\n" RESET, pattern);
         *program_execution = 1;
         return;
     }
 
     char line[MAX_LINE_LENGTH];
-    int line_number = 0;        
-    int match_count = 0;        
-    int file_has_matches = 0; 
+    int line_number = 0;
+    int match_count = 0;
+    int file_has_matches = 0;
+
+    if (flags & FLAG_H)
+    {
+        file_count = 1;
+    }
 
     while (fgets(line, sizeof(line), file))
     {

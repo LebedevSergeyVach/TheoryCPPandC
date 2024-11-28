@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
 
     if (pattern == NULL)
     {
-        fprintf(stderr, "Требуется шаблон для работы поиска.\n");
-        program_execution = 1;
+        fprintf(stderr, RED "Требуется шаблон для работы поиска.\n" RESET);
+        error_used_command_grep(&program_execution, argv[0]);
     }
 
     if (!program_execution)
@@ -33,7 +33,9 @@ int main(int argc, char *argv[])
                     error_check_file_exists(&program_execution, argc, argv);
                     continue;
                 }
+
                 process_file_grep(flags, pattern, file, argv[i], file_count, &program_execution);
+                
                 fclose(file);
             }
         }
