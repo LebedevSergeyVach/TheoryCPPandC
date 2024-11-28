@@ -5,6 +5,8 @@
 #include <getopt.h>
 #include <unistd.h>
 
+#include "color_out.h"
+
 // Функция для вывода сообщения об ошибке неправильного использования команды cat
 void error_used_command_cat(int *program_execution, const char *name);
 // Функция для вывода сообщения об ошибке неправильного использования команды grep

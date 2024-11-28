@@ -12,11 +12,12 @@ TEST = test.txt -s -n -t -v -e
 
 .PHONY = all clean
 
-all: build
+all: build clean
 
 run: run_mac
 build: build_cat
 clean: clean_out
+test: test_cat
 
 build_cat:
 	@$(CC) $(FLAGS) $(BUILD_FILES) -o $(OUT_FILE)
@@ -28,12 +29,6 @@ run_mac:
 	@$(MEMORYLEAKS) ./a.out $(TEST)
 	@rm -rf a.out
 
-run_win:
-	@clear
-	@$(CC) $(FLAGS) $(BUILD_FILES)
-	@./a.exe $(TEST)
-	@rm -rf a.exe
-
 run_arch:
 	@clear
 	@$(CPPCHECK) ./
@@ -41,5 +36,30 @@ run_arch:
 	@./a.out $(TEST)
 	@rm -rf a.out
 
+run_win:
+	@clear
+	@$(CC) $(FLAGS) $(BUILD_FILES)
+	@./a.exe $(TEST)
+	@rm -rf a.exe
+
 clean_out:
 	@rm -rf *.exe *.out
+
+test_cat:
+	@clear
+	@$(CPPCHECK) ./
+	@$(CC) $(FLAGS) $(BUILD_FILES)
+	@./a.out $(TEST)
+	@rm -rf a.out
+
+error_flag:
+	@clear
+	@$(CC) $(FLAGS) $(BUILD_FILES)
+	@./a.out $(TEST) -q
+	@rm -rf a.out
+
+error_file:
+	@clear
+	@$(CC) $(FLAGS) $(BUILD_FILES)
+	@./a.out error.txt
+	@rm -rf a.out
