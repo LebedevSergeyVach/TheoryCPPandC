@@ -1,9 +1,11 @@
 CC = gcc
 
 FLAGS = -std=c11 -Wall -Wextra -Werror -pedantic
+ADD_FLAGS = -fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=unreachable
 
 CPPCHECK = cppcheck --enable=all --suppress=missingIncludeSystem --check-level=exhaustive
-MEMORYLEAKS = MallocStackLogging=1 leaks -q -atExit --
+MEMORY_LEAKS = MallocStackLogging=1 leaks -q -atExit --
+MEMORY_VALGRIND = valgrind --tool=memcheck --leak-check=yes -s
 
 OUT_FILE = s21_cat
 BUILD_FILES = s21_cat.c s21_options_cat.c s21_process_cat_file.c ../common/error.c
@@ -12,7 +14,7 @@ TEST = test.txt -s -n -t -v -e
 
 .PHONY = all clean
 
-all: build clean
+all: build
 
 run: run_mac
 build: build_cat
@@ -26,14 +28,14 @@ run_mac:
 	@clear
 	@$(CPPCHECK) ./
 	@$(CC) $(FLAGS) $(BUILD_FILES)
-	@$(MEMORYLEAKS) ./a.out $(TEST)
+	@$(MEMORY_LEAKS) ./a.out $(TEST)
 	@rm -rf a.out
 
 run_arch:
 	@clear
 	@$(CPPCHECK) ./
 	@$(CC) $(FLAGS) $(BUILD_FILES)
-	@./a.out $(TEST)
+	@$(MEMORY_VALGRIND) ./a.out $(TEST)
 	@rm -rf a.out
 
 run_win:
@@ -43,7 +45,7 @@ run_win:
 	@rm -rf a.exe
 
 clean_out:
-	@rm -rf *.exe *.out
+	@rm -rf *.exe *.out $(OUT_FILE)
 
 test_cat:
 	@clear

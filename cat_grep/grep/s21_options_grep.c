@@ -45,7 +45,7 @@ int parse_options(int argc, char *argv[], int *flags, char **pattern, int *progr
             break;
         case 'f':
             *flags |= FLAG_F;
-            *pattern = read_patterns_from_file(optarg, program_execution);
+            read_patterns_from_file(optarg, pattern, program_execution);
             break;
         default:
             error_used_command_grep(program_execution, argv[0]);

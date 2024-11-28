@@ -35,10 +35,15 @@ int main(int argc, char *argv[])
                 }
 
                 process_file_grep(flags, pattern, file, argv[i], file_count, &program_execution);
-                
+
                 fclose(file);
             }
         }
+    }
+
+    if (pattern != NULL)
+    {
+        free(pattern);
     }
 
     if (program_execution)

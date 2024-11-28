@@ -5,9 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../common/color_out.h"
+
 #define MAX_LINE_LENGTH 4096
 
 // Функция для чтения шаблонов из файла
-char* read_patterns_from_file(const char *filename, int *program_execution);
+void read_patterns_from_file(const char *filename, char **pattern, int *program_execution);
 
 #endif

@@ -1,5 +1,7 @@
 # Документация к директории **[grep](doc.md)**
 
+<a name="up"></a>
+
 ## [GREP](.)
 
 ### Опции `grep`
@@ -106,8 +108,6 @@ flags &= ~FLAG_E  ->  flags = 0000 0000
 #### `int parse_options(int argc, char *argv[], int *flags, char **pattern, int *program_execution)`
 
 ```C
-#include "s21_options_grep.h"
-
 int parse_options(int argc, char *argv[], int *flags, char **pattern, int *program_execution)
 {
     // Определение длинных опций для getopt_long
@@ -154,7 +154,7 @@ int parse_options(int argc, char *argv[], int *flags, char **pattern, int *progr
             break;
         case 'f':
             *flags |= FLAG_F; // Установка флага FLAG_F
-            *pattern = read_patterns_from_file(optarg, program_execution);  // Чтение шаблонов из переданного файла
+            read_patterns_from_file(optarg, pattern, program_execution); // Чтение шаблонов из переданного файла
             break;
         default:
             error_used_command_grep(program_execution, argv[0]); // Вызов функции для обработки ошибки
@@ -348,7 +348,6 @@ void process_file_grep(int flags, const char *pattern, FILE *file, const char *f
     // Освобождение ресурсов, занятых регулярным выражением
     regfree(&regex);
 }
-
 ```
 
 #### Аргументы функции `process_file_grep`
@@ -390,10 +389,33 @@ if (flags & FLAG_I)
 }
 ```
 
-- `regex_t regex;` — объявление структуры для хранения регулярного выражения.
-- `int regex_flags = REG_EXTENDED;` — установка флагов для компиляции регулярного выражения.
-- `if (flags & FLAG_I) { regex_flags |= REG_ICASE; }` — добавление флага игнорирования регистра, если указан флаг `-i`.
-- `regcomp(&regex, pattern, regex_flags)` — компиляция регулярного выражения. Если компиляция завершается неудачно, выводится сообщение об ошибке и функция завершается.
+- **`regex_t regex;`** — объявление структуры для хранения регулярного выражения.
+- **`int regex_flags = REG_EXTENDED;`** — установка флагов для компиляции регулярного выражения.
+- **`if (flags & FLAG_I) { regex_flags |= REG_ICASE; }`** — добавление флага игнорирования регистра, если указан флаг `-i`.
+- **`regcomp(&regex, pattern, regex_flags)`** — компиляция регулярного выражения. Если компиляция завершается неудачно, выводится сообщение об ошибке и функция завершается.
+
+---
+
+#### Компиляции регулярного выражения в формат для работы с текстом
+
+```C
+int regcomp(regex_t *__restrict__ __preg, const char *__restrict__ __pattern, int __cflags)
+```
+
+```C
+regcomp(&regex, pattern, regex_flags)
+```
+
+- **`regex_t preg`**: Указатель на структуру regex_t, которая будет содержать скомпилированное регулярное выражение.
+- **`const char`** pattern: Строка, содержащая регулярное выражение, которое нужно скомпилировать.
+- **`int cflags`**: Флаги, которые влияют на компиляцию регулярного выражения.
+
+Флаги
+
+- **`REG_EXTENDED`**: Использовать расширенный синтаксис регулярных выражений POSIX.
+- **`REG_ICASE`**: Игнорировать регистр символов при сравнении.
+- **`REG_NOSUB`**: Не сохранять информацию о совпадениях (полезно для простого поиска совпадений).
+- **`REG_NEWLINE`**: Обрабатывать символ новой строки как разделитель строк.
 
 ---
 
@@ -447,24 +469,101 @@ regexec(&regex, line, 0, NULL, 0) == 0:
 
 ### [s21_read_patterns_from_file.c](s21_read_patterns_from_file.c)
 
-#### `char** read_patterns_from_file(const char* filename, int* pattern_count)`
+#### `void read_patterns_from_file(const char *filename, char **pattern, int *program_execution)`
 
 ```C
+// Функция для чтения шаблонов из файла
+void read_patterns_from_file(const char *filename, char **pattern, int *program_execution)
+{
+    // Открытие файла с шаблонами
+    FILE *file = fopen(filename, "r");
+    if (file == NULL)
+    {
+        fprintf(stderr, YELLOW "Файла с шаблонами " BLUE "`%s` " YELLOW "не существует или недоступен.\n" RESET, filename);
+        *program_execution = 1;
+    }
 
+    if (!*program_execution)
+    {
+        // Инициализация указателя на строку с шаблонами
+        *pattern = NULL;
+        char line[MAX_LINE_LENGTH];
+
+        // Чтение строки из файла до тех пор, пока не достигнет конца файла
+        while (fgets(line, sizeof(line), file))
+        {
+            size_t len = strlen(line);
+
+            if (line[len - 1] == '\n')
+            {
+                line[len - 1] = '\0';
+            }
+
+            // Первая строка pattern = NULL
+            if (*pattern == NULL)
+            {
+                // Выделение памяти для первой строки ('\0')
+                *pattern = malloc(len + 1);
+
+                if (*pattern == NULL)
+                {
+                    fclose(file);
+
+                    fprintf(stderr, RED "Ошибка выделения памяти для шаблона!\n" RESET);
+                    *program_execution = 1;
+
+                    break;
+                }
+
+                // Копирование строки в pattern
+                strcpy(*pattern, line);
+            }
+            else
+            {
+                // pattern уже инициализирован
+                // Выделение новой памяи для объединенной строки (pattern + новая строка + "|" + "\0")
+                char *new_patterns = realloc(*pattern, strlen(*pattern) + len + 2);
+
+                if (new_patterns == NULL)
+                {
+                    free(*pattern);
+                    fclose(file);
+
+                    fprintf(stderr, RED "Ошибка выделения памяти для шаблона!\n" RESET);
+                    *program_execution = 1;
+
+                    break;
+                }
+
+                // Обновление указателя на pattern
+                *pattern = new_patterns;
+
+                // Добавление разделителя для шаблонов
+                strcat(*pattern, "|");
+
+                // Добавление новой строки
+                strcat(*pattern, line);
+            }
+        }
+
+        fclose(file);
+    }
+}
 ```
 
 #### Аргументы функции `read_patterns_from_file`
 
-- **`const char* filename`**: Строка, содержащая путь к файлу, из которого будут считываться шаблоны.
-- **`int* pattern_count`**: Указатель на переменную, которая будет содержать количество шаблонов, считанных из файла.
+- **`const char *filename`**: Имя файла, из которого будут считываться шаблоны регулярных выражений.
+- **`char **pattern`**: Указатель на строку, в которую будет записан результат — объединенные шаблоны.
+- **`int *program_execution`**: Указатель на переменную, которая будет установлена в 1 в случае ошибки, чтобы указать на неудачное выполнение программы.
 
 #### Описание функции `read_patterns_from_file`
 
-Предназначена для чтения шаблонов из указанного файла.
+Предназначена для чтения шаблонов регулярных выражений из указанного файла.
 Открывает файл, читает каждую строку, удаляет символ новой строки (если он есть), и сохраняет строку как шаблон.
-Функция возвращает массив строк, содержащий все шаблоны, и устанавливает значение переменной, на которую указывает `pattern_count`, в количество прочитанных шаблонов.
-Если возникает ошибка при открытии файла или выделении памяти, функция возвращает `NULL` и выводит соответствующее сообщение об ошибке.
+И объединения их в одну строку, разделенную символом "|".
+Это позволяет использовать несколько шаблонов в одном регулярном выражении.
 
 ---
 
-#### [doc.md](doc.md)
+#### [doc.md](doc.md) [UP](#up)

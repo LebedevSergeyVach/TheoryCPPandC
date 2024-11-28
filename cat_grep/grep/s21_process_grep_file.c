@@ -38,6 +38,7 @@ void process_file_grep(int flags, const char *pattern, FILE *file, const char *f
             if (flags & FLAG_L)
             {
                 file_has_matches = 1;
+                
                 break;
             }
             if (flags & FLAG_C)
@@ -66,12 +67,12 @@ void process_file_grep(int flags, const char *pattern, FILE *file, const char *f
             printf(VIOLET "%s:\t" RESET, file == stdin ? "-" : filename);
         }
 
-        printf(RED "%d\t" RESET "\n", match_count);
+        printf(RED "%d" RESET "\n", match_count);
     }
 
     if (flags & FLAG_L && file_has_matches)
     {
-        printf(VIOLET "%s\t" RESET "\n", file == stdin ? "-" : filename);
+        printf(VIOLET "%s" RESET "\n", file == stdin ? "-" : filename);
     }
 
     regfree(&regex);

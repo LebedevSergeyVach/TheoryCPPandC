@@ -1,6 +1,5 @@
 #include "error.h"
 
-
 void error_used_command_cat(int *program_execution, const char *name)
 {
     fprintf(
