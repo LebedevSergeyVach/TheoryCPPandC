@@ -20,6 +20,7 @@ run: run_mac
 build: build_cat
 clean: clean_out
 test: test_cat
+help: help_cat
 
 build_cat:
 	@$(CC) $(FLAGS) $(BUILD_FILES) -o $(OUT_FILE)
@@ -46,6 +47,12 @@ run_win:
 
 clean_out:
 	@rm -rf *.exe *.out $(OUT_FILE)
+
+help_cat:
+	@clear
+	@$(CC) $(FLAGS) $(BUILD_FILES) -o $(OUT_FILE)
+	@./$(OUT_FILE) --help
+	@rm -rf $(OUT_FILE)
 
 test_cat:
 	@clear

@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
     if (!program_execution)
     {
-        if (optind == argc)
+        if (optind == argc && !(flags & FLAG_P))
         {
             process_file_cat(stdin, flags);
         }

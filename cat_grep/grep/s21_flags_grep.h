@@ -9,5 +9,6 @@
 #define FLAG_N 0x20
 #define FLAG_F 0x40
 #define FLAG_H 0x80
+#define FLAG_P 0x100
 
 #endif

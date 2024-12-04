@@ -9,11 +9,12 @@ int parse_options(int argc, char *argv[], int *flags)
         {"number", no_argument, 0, 'n'},
         {"squeeze-blank", no_argument, 0, 's'},
         {"show-nonprinting", no_argument, 0, 'v'},
+        {"help", no_argument, 0, 'H'},
         {0, 0, 0, 0}};
 
     int opt;
 
-    while ((opt = getopt_long(argc, argv, "benstvET", long_options, NULL)) != -1)
+    while ((opt = getopt_long(argc, argv, "benstvETH", long_options, NULL)) != -1)
     {
         switch (opt)
         {
@@ -40,6 +41,17 @@ int parse_options(int argc, char *argv[], int *flags)
             break;
         case 'v':
             *flags |= FLAG_V;
+            break;
+        case 'H':
+            *flags |= FLAG_P;
+            printf(
+                "Инструкция по команде: " GREEN "%s\n\n" 
+                BLUE "-b --number-nonblank     " RESET "Нумерует только непустые строки.\n" 
+                BLUE "-n --number              " RESET "Нумерует все выходные строки.\n"
+                BLUE "-s --squeeze-blank       " RESET "Сжимает несколько смежных пустых строк в одну.\n"
+                BLUE "-v --show-nonprinting    " RESET "Отображает непечатаемые символы, кроме пробелов и символов новой строки.\n"
+                BLUE "-t                       " RESET "Отображает символы табуляции (табы как ^I).\n"
+                BLUE "-e                       " RESET "Отображает символы конца строки как $.\n", argv[0]);
             break;
         default:
             error_used_command_cat(&program_execution, argv[0]);

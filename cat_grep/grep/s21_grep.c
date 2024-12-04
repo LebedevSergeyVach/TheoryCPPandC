@@ -10,13 +10,13 @@ int main(int argc, char *argv[])
 
     int file_start_index = parse_options(argc, argv, &flags, &pattern, &pattern_dynamic, &program_execution);
 
-    if (pattern == NULL)
+    if (pattern == NULL && !(flags & FLAG_P))
     {
         fprintf(stderr, RED "Требуется шаблон для работы поиска.\n" RESET);
         program_execution = 1;
     }
 
-    if (!program_execution)
+    if (!program_execution && !(flags & FLAG_P))
     {
         int file_count = argc - file_start_index;
 

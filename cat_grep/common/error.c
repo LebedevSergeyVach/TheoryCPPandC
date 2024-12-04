@@ -4,7 +4,7 @@ void error_used_command_cat(int *program_execution, const char *name)
 {
     fprintf(
         stderr,
-        YELLOW "Неверное использование команды.\nИспользуйте: " BLUE "%s -[benstvET] [file]\n" RESET,
+        YELLOW "Неверное использование команды.\nИспользуйте: " BLUE "%s -[benstvET / --help] [file]\n" RESET,
         name);
 
     *program_execution = 1;
@@ -13,7 +13,7 @@ void error_used_command_cat(int *program_execution, const char *name)
 void error_used_command_grep(int *program_execution, const char *name) {
         fprintf(
         stderr,
-        YELLOW "Неверное использование команды.\nИспользуйте: " BLUE "%s -[-e pattern] -[-p file_patterns] [-ivclnh] [file]\n" RESET,
+        YELLOW "Неверное использование команды.\nИспользуйте: " BLUE "%s -[-e pattern] -[-p file_patterns] [-ivclnh / --help] [file]\n" RESET,
         name);
 
     *program_execution = 1;

@@ -20,6 +20,7 @@ run: run_mac
 build: build_grep
 clean: clean_out
 test: test_grep
+help: help_grep
 
 build_grep:
 	@$(CC) $(FLAGS) $(BUILD_FILES) -o $(OUT_FILE)
@@ -46,6 +47,12 @@ run_win:
 
 clean_out:
 	@rm -rf *.exe *.out $(OUT_FILE)
+
+help_grep:
+	@clear
+	@$(CC) $(FLAGS) $(BUILD_FILES) -o $(OUT_FILE)
+	@./$(OUT_FILE) --help
+	@rm -rf $(OUT_FILE)
 
 test_grep:
 	@clear
@@ -77,4 +84,3 @@ error_pattern:
 	@$(CC) $(FLAGS) $(BUILD_FILES)
 	@./a.out -f test/error_pattern test/*.txt
 	@rm -rf a.out
-
