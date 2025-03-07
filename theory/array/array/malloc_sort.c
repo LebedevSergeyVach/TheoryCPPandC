@@ -40,18 +40,18 @@ int main()
                 output_array(array, number);
             }
         }
+
+        free(array);
     }
-    
-    free(array);
 
     return programm;
 }
 
-int input_array(int *array, int numbe)
+int input_array(int *array, int number)
 {
     int programm = 0;
 
-    for (int *p = array; p - array < numbe; p++)
+    for (int *p = array; p - array < number; p++)
     {
         scanf("%d", p);
     }
