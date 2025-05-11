@@ -1,4 +1,7 @@
-#include "correct_text.h"
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_ARRAY_CHAR 100
 
 // Является ли буквой
 int isLetter(char symbol)
@@ -74,11 +77,11 @@ void deleteChar(char *pointerText, int indexDeleteChar)
 }
 
 // Добавлет пробел и сдвигает все символы вправо начиная с indexAddSpaceChar
-int addSpaceChar(char *pointerText, int indexAddSpaceChar, size_t allocatedSize)
+int addSpaceChar(char *pointerText, int indexAddSpaceChar)
 {
     size_t len = strlen(pointerText);
 
-    if (len >= allocatedSize - 2)
+    if (len >= MAX_ARRAY_CHAR - 2)
     {
         return 0;
     }
@@ -92,8 +95,8 @@ int addSpaceChar(char *pointerText, int indexAddSpaceChar, size_t allocatedSize)
     return 1;
 }
 
-// Коррекция переданного массива через указатель
-int correctText(char *pointerText, size_t allocatedSize)
+// Коррекция пререданного массива через указатель
+int correctText(char *pointerText)
 {
     int isStartSentence = 1;
     int isStartText = 1;
@@ -150,7 +153,7 @@ int correctText(char *pointerText, size_t allocatedSize)
 
         if (isPunctuationMarks(pointerText[i]) && !isSpace(pointerText[i + 1]))
         {
-            if (!addSpaceChar(pointerText, i + 1, allocatedSize))
+            if (!addSpaceChar(pointerText, i + 1))
             {
                 return 0;
             }
@@ -160,4 +163,41 @@ int correctText(char *pointerText, size_t allocatedSize)
     }
 
     return 1;
+}
+
+/**
+ * Обработка текста введенного пользователем
+ * • Текст вводится пользователем при запуске программы
+ * • текст хранится в статическом массиве заданного размера (ограничение на размер вводимого текста)
+ * • реализация функции коррекции текста:
+ * 1) большая буква только в начале предложения или в начале текста,
+ * 2) удаление нескольких пробелов, следующих подряд,
+ * 3) удаление пробелов перед точкой и запятой,
+ * 4) добавление пробела после знаков препинания.
+ * • проверка корректности размера массива (при добавлении пробелом не должен быть превышен размер массива)
+ */
+int main()
+{
+    char mainArrayChar[MAX_ARRAY_CHAR];
+
+    printf("Введите текст размером %d символов:\n", MAX_ARRAY_CHAR / 2 - 1);
+    fgets(mainArrayChar, MAX_ARRAY_CHAR, stdin);
+
+    // Удаляем символ новой строки, если он есть
+    size_t len = strlen(mainArrayChar);
+    if (len > 0 && mainArrayChar[len - 1] == '\n')
+    {
+        mainArrayChar[len - 1] = '\0';
+    }
+
+    if (correctText(mainArrayChar))
+    {
+        printf("%s\n", mainArrayChar);
+    }
+    else
+    {
+        printf("Произошла ошибка при корректировки текста, превышен максимальный размер массива при увеличении!\n");
+    }
+
+    return 0;
 }

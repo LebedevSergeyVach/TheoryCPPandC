@@ -189,7 +189,7 @@ char *GetText(FILE *stream, char terminator)
     }
 
     // Добавляем нуль-терминатор
-    buffer[sizeData] = '\0';
+    buffer[sizeData++] = '\0';
 
     // коректировка текста
     if (!correctText(buffer, capacity))
