@@ -8,7 +8,7 @@
 
 void choiceStdinText(int *pointer);
 FILE *selectInputSource(int choice);
-char *myRealloc(char *oldPointer, size_t oldAllocatedSize, size_t newAllocatedSize, size_t dataSize);
+char *myRealloc(char *ptr, size_t oldSize, size_t newSize);
 char *GetText(FILE *stream, char terminator);
 
 /**
@@ -111,42 +111,43 @@ FILE *selectInputSource(int choice)
 }
 
 // Улучшенная функция перевыделения памяти с учётом реального размера данных
-char *myRealloc(char *oldPointer, size_t oldAllocatedSize, size_t newAllocatedSize, size_t dataSize)
+char *myRealloc(char *pointer, size_t oldSize, size_t newSize)
 {
     // Нельзя создать массив с размером меньше 0
-    if (newAllocatedSize < 0)
+    if (newSize < 0)
     {
         return NULL;
     }
 
     // Если запрашивается новый размер 0 - освобождаем память
-    if (newAllocatedSize == 0)
+    if (newSize == 0)
     {
-        free(oldPointer);
+        free(pointer);
         return NULL;
     }
 
     // Если старый указатель NULL - просто выделяем новую память
-    if (oldPointer == NULL)
+    if (pointer == NULL)
     {
-        return (char *)malloc(newAllocatedSize);
+        return (char *)malloc(newSize);
     }
 
     // Выделяем новый блок памяти
-    char *newPointer = (char *)malloc(newAllocatedSize);
-    if (newPointer == NULL)
+    char *newPtr = (char *)malloc(newSize);
+    if (newPtr == NULL)
     {
         return NULL;
     }
 
     // Копируем только значимые данные (не больше, чем новый размер)
-    size_t bytesToCopy = dataSize < newAllocatedSize ? dataSize : newAllocatedSize;
-    memcpy(newPointer, oldPointer, bytesToCopy);
+    if (pointer != NULL)
+    {
+        size_t copySize = oldSize < newSize ? oldSize : newSize;
+        memcpy(newPtr, pointer, copySize);
+        free(pointer);
+    }
 
-    // Освобождаем старый блок
-    free(oldPointer);
-
-    return newPointer;
+    return newPtr;
 }
 
 char *GetText(FILE *stream, char terminator)
@@ -170,8 +171,7 @@ char *GetText(FILE *stream, char terminator)
         if (sizeData >= capacity - 1) // -1 для нуль-терминатора
         {
             size_t newCapacity = capacity * 2;
-            // char *temp = (char *)realloc(buffer, capacity * sizeof(char));
-            char *temp = myRealloc(buffer, capacity, newCapacity, sizeData);
+            char *temp = myRealloc(buffer, capacity, newCapacity);
 
             if (temp == NULL)
             {
@@ -200,8 +200,7 @@ char *GetText(FILE *stream, char terminator)
     }
 
     // Оптимизируем память, уменьшая буфер до минимально необходимого размера
-    // char *result = (char *)realloc(buffer, (sizeData + 1) * sizeof(char));
-    char *result = (char *)myRealloc(buffer, capacity, sizeData + 1, sizeData);
+    char *result = myRealloc(buffer, capacity, strlen(buffer) + 1);
     if (result == NULL)
     {
         fprintf(stderr, "Не удалось уменьшить размер выделенной памяти для строки!\n");
