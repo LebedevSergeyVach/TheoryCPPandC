@@ -133,8 +133,9 @@ char *myRealloc(char *pointer, size_t oldSize, size_t newSize)
     }
 
     // Выделяем новый блок памяти
-    char *newPtr = (char *)malloc(newSize);
-    if (newPtr == NULL)
+    size_t newAllocateSize = oldSize < newSize ? oldSize : newSize;
+    char *newPointer = (char *)malloc(newAllocateSize);
+    if (newPointer == NULL)
     {
         return NULL;
     }
@@ -143,11 +144,11 @@ char *myRealloc(char *pointer, size_t oldSize, size_t newSize)
     if (pointer != NULL)
     {
         size_t copySize = oldSize < newSize ? oldSize : newSize;
-        memcpy(newPtr, pointer, copySize);
+        memcpy(newPointer, pointer, copySize);
         free(pointer);
     }
 
-    return newPtr;
+    return newPointer;
 }
 
 char *GetText(FILE *stream, char terminator)
